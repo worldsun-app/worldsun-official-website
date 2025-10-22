@@ -1,0 +1,702 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* 沃勝家族辦公室設計系統 - 保持原本品牌色系 */
+    --background: 30 20% 98%;
+    --background-soft: 30 15% 96%;
+    --background-muted: 30 10% 94%;
+    
+    --foreground: 200 20% 15%;
+    --foreground-soft: 200 15% 35%;
+    --foreground-muted: 200 10% 55%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 200 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 20% 15%;
+
+    /* 品牌主色 - 溫暖傳承紅 */
+    --primary: 8 55% 50%;
+    --primary-foreground: 0 0% 98%;
+    --primary-soft: 8 45% 65%;
+    --primary-muted: 8 35% 85%;
+
+    /* 專業投資綠 */
+    --secondary: 182 100% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* 金色點綴 */
+    --accent: 45 85% 60%;
+    --accent-foreground: 200 20% 15%;
+
+    /* 中性色 */
+    --muted: 210 15% 96%;
+    --muted-foreground: 200 10% 45%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 15% 90%;
+    --input: 210 15% 94%;
+    --ring: 3 65% 46%;
+
+    /* 沃勝家族辦公室漸變色 */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-soft)));
+    --gradient-professional: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary-muted)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    /* 優雅陰影 */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
+    --shadow-luxury: 0 20px 60px -15px hsl(var(--accent) / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(200 20% 15% / 0.1);
+
+    /* 動畫 */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 200 30% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 200 25% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 200 25% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 3 75% 55%;
+    --primary-foreground: 0 0% 95%;
+    --primary-glow: 3 85% 65%;
+
+    --secondary: 182 80% 25%;
+    --secondary-foreground: 0 0% 95%;
+    --secondary-light: 182 60% 40%;
+
+    --accent: 45 75% 55%;
+    --accent-foreground: 200 30% 8%;
+    --accent-glow: 45 85% 65%;
+
+    --muted: 200 20% 15%;
+    --muted-foreground: 200 10% 65%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 200 20% 20%;
+    --input: 200 20% 15%;
+    --ring: 3 75% 55%;
+
+    /* Dark mode gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-professional: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+    --shadow-luxury: 0 20px 60px -15px hsl(var(--accent) / 0.2);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+
+    --sidebar-background: 200 25% 10%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 3 75% 55%;
+    --sidebar-primary-foreground: 0 0% 95%;
+    --sidebar-accent: 200 20% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 200 20% 20%;
+    --sidebar-ring: 3 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-noto;
+    font-size: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+
+  h1, h2 {
+    font-family: 'Noto Serif TC', 'Songti TC', 'PMingLiU', 'MingLiU', 'Times New Roman', serif;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+  }
+
+  /* 自定義滾動條 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+@layer utilities {
+  /* 漸變背景 */
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+
+  .gradient-professional {
+    background: var(--gradient-professional);
+  }
+
+  .gradient-luxury {
+    background: var(--gradient-luxury);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  /* 陰影效果 */
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-luxury {
+    box-shadow: var(--shadow-luxury);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* 動畫過渡 */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+
+  /* 文字截斷 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 滾動視差效果 */
+  .parallax {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* 按鈕和連結樣式優化 */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-smooth;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-smooth;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+  }
+  
+  .link-elegant {
+    @apply text-primary hover:text-primary-glow transition-smooth;
+    position: relative;
+  }
+  
+  .link-elegant:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: hsl(var(--primary));
+    transition: width 0.3s ease;
+  }
+  
+  .link-elegant:hover:after {
+    width: 100%;
+  }
+  
+  /* 卡片和區塊樣式優化 */
+  .card-elegant {
+    @apply bg-card shadow-card border border-border/50 transition-smooth;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  
+  .card-elegant:hover {
+    @apply shadow-elegant;
+    transform: translateY(-2px);
+  }
+  
+  .section-spacing {
+    padding: 80px 0;
+  }
+  
+  .container-elegant {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  
+  /* 細節優化 */
+  .text-warm {
+    color: hsl(var(--primary));
+  }
+  
+  .text-soft {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  .bg-warm-subtle {
+    background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
+  }
+  
+  .border-warm {
+    border-color: hsl(var(--primary) / 0.2);
+  }
+  
+  .focus-elegant:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.3);
+  }
+  
+  /* 響應式字體 */
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .section-spacing {
+      padding: 60px 0;
+    }
+    
+    .container-elegant {
+      padding: 0 16px;
+    }
+  }
+  
+  /* ===== 沃勝家族辦公室背景動畫系統 ===== */
+  /* 第一階段：主背景漸變動畫 */
+  
+  /* 品牌色彩動畫 - 使用 #B73932 和 #00585C */
+  @keyframes brandGradientFlow {
+    0%, 100% { 
+      background: white;
+    }
+  }
+  
+  /* 背景動畫切換開關 */
+  .ws-animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: white;
+    pointer-events: none;
+  }
+  
+  /* 動畫控制 */
+  .ws-animation-enabled .ws-animated-background {
+    animation-play-state: running;
+  }
+  
+  .ws-animation-disabled .ws-animated-background {
+    animation-play-state: paused;
+    opacity: 0.04;
+  }
+  
+  /* 效能優化 */
+  @media (prefers-reduced-motion: reduce) {
+    .ws-animated-background {
+      animation: none;
+      opacity: 0.04;
+    }
+  }
+  
+  /* 移動裝置優化 */
+  @media (max-width: 768px) {
+    .ws-animated-background {
+      opacity: 0.06;
+      animation-duration: 20s;
+    }
+  }
+  
+  /* ===== 第二階段：浮動幾何元素 ===== */
+  
+  /* 浮動路徑動畫 */
+  @keyframes floatPath1 {
+    0% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.05;
+    }
+    25% { 
+      transform: translate(100px, -80px) rotate(90deg) scale(1.1);
+      opacity: 0.08;
+    }
+    50% { 
+      transform: translate(60px, 120px) rotate(180deg) scale(0.9);
+      opacity: 0.06;
+    }
+    75% { 
+      transform: translate(-80px, 40px) rotate(270deg) scale(1.05);
+      opacity: 0.07;
+    }
+    100% { 
+      transform: translate(0, 0) rotate(360deg) scale(1);
+      opacity: 0.05;
+    }
+  }
+  
+  @keyframes floatPath2 {
+    0% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.04;
+    }
+    33% { 
+      transform: translate(-120px, 90px) rotate(120deg) scale(1.2);
+      opacity: 0.07;
+    }
+    66% { 
+      transform: translate(80px, -60px) rotate(240deg) scale(0.8);
+      opacity: 0.05;
+    }
+    100% { 
+      transform: translate(0, 0) rotate(360deg) scale(1);
+      opacity: 0.04;
+    }
+  }
+  
+  @keyframes floatPath3 {
+    0% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.06;
+    }
+    40% { 
+      transform: translate(150px, 100px) rotate(144deg) scale(1.15);
+      opacity: 0.08;
+    }
+    80% { 
+      transform: translate(-100px, -80px) rotate(288deg) scale(0.85);
+      opacity: 0.05;
+    }
+    100% { 
+      transform: translate(0, 0) rotate(360deg) scale(1);
+      opacity: 0.06;
+    }
+  }
+  
+  @keyframes floatPath4 {
+    0% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.03;
+    }
+    50% { 
+      transform: translate(-80px, -120px) rotate(180deg) scale(1.3);
+      opacity: 0.06;
+    }
+    100% { 
+      transform: translate(0, 0) rotate(360deg) scale(1);
+      opacity: 0.03;
+    }
+  }
+  
+  /* 浮動幾何元素樣式 */
+  .ws-floating-geometry {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(1px);
+    transition: opacity 0.5s ease;
+  }
+  
+  .ws-floating-geometry.circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(8 55% 50% / 0.12), hsl(182 100% 18% / 0.1));
+    top: 20%;
+    left: 15%;
+    animation: floatPath1 25s ease-in-out infinite;
+  }
+  
+  .ws-floating-geometry.triangle {
+    width: 0;
+    height: 0;
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-bottom: 180px solid hsl(8 65% 45% / 0.1);
+    top: 60%;
+    right: 20%;
+    animation: floatPath2 30s ease-in-out infinite;
+  }
+  
+  .ws-floating-geometry.square {
+    width: 160px;
+    height: 160px;
+    background: linear-gradient(45deg, hsl(182 90% 22% / 0.12), hsl(8 60% 48% / 0.08));
+    transform: rotate(45deg);
+    top: 15%;
+    right: 25%;
+    animation: floatPath3 35s ease-in-out infinite;
+  }
+  
+  .ws-floating-geometry.hexagon {
+    width: 140px;
+    height: 140px;
+    background: hsl(182 85% 25% / 0.08);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    bottom: 25%;
+    left: 25%;
+    animation: floatPath4 40s ease-in-out infinite;
+  }
+
+  /* 背景粒子效果增強 */
+  .ws-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 12s ease-in-out infinite;
+  }
+  
+  /* 動畫控制 */
+  .ws-animation-enabled .ws-floating-geometry {
+    animation-play-state: running;
+  }
+  
+  .ws-animation-disabled .ws-floating-geometry {
+    animation-play-state: paused;
+    opacity: 0.02;
+  }
+  
+  /* 效能優化 */
+  @media (prefers-reduced-motion: reduce) {
+    .ws-floating-geometry {
+      animation: none;
+      opacity: 0.02;
+    }
+  }
+  
+  /* 移動裝置優化 */
+  @media (max-width: 768px) {
+    .ws-floating-geometry {
+      opacity: 0.04;
+    }
+    
+    .ws-floating-geometry.circle {
+      width: 120px;
+      height: 120px;
+      animation-duration: 35s;
+    }
+    
+    .ws-floating-geometry.triangle {
+      border-left-width: 70px;
+      border-right-width: 70px;
+      border-bottom-width: 100px;
+      animation-duration: 40s;
+    }
+    
+    .ws-floating-geometry.square {
+      width: 100px;
+      height: 100px;
+      animation-duration: 45s;
+    }
+    
+    .ws-floating-geometry.hexagon {
+      width: 90px;
+      height: 90px;
+      animation-duration: 50s;
+    }
+  }
+  
+  /* ===== 第三階段：視差效果與微互動 ===== */
+  
+  /* 視差動畫關鍵幀 */
+  @keyframes parallaxFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  @keyframes mouseFollowSlow {
+    to { transform: translate(var(--mouse-x, 0), var(--mouse-y, 0)); }
+  }
+  
+  @keyframes mouseFollowFast {
+    to { transform: translate(calc(var(--mouse-x, 0) * 0.5), calc(var(--mouse-y, 0) * 0.5)); }
+  }
+  
+  /* 視差容器 */
+  .ws-parallax-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 視差元素 */
+  .ws-parallax-element {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+  }
+  
+  .ws-parallax-slow {
+    animation: parallaxFloat 8s ease-in-out infinite;
+  }
+  
+  .ws-parallax-medium {
+    animation: parallaxFloat 6s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+  
+  .ws-parallax-fast {
+    animation: parallaxFloat 4s ease-in-out infinite;
+    animation-delay: -1s;
+  }
+  
+  /* 滑鼠追隨效果 */
+  .ws-mouse-follow-slow {
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .ws-mouse-follow-medium {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .ws-mouse-follow-fast {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* 滾動觸發的視差效果 */
+  .ws-scroll-parallax {
+    transform: translateY(0);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* 微互動懸停效果 */
+  .ws-micro-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .ws-micro-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  /* 背景粒子效果 */
+  .ws-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 12s ease-in-out infinite;
+  }
+  
+  @keyframes particleFloat {
+    0%, 100% { 
+      transform: translateY(0) scale(1); 
+      opacity: 0.3;
+    }
+    50% { 
+      transform: translateY(-20px) scale(1.2); 
+      opacity: 0.6;
+    }
+  }
+  
+  .ws-particle:nth-child(2) { animation-delay: -2s; }
+  .ws-particle:nth-child(3) { animation-delay: -4s; }
+  .ws-particle:nth-child(4) { animation-delay: -6s; }
+  .ws-particle:nth-child(5) { animation-delay: -8s; }
+  
+  /* 動畫控制 */
+  .ws-animation-enabled .ws-parallax-slow,
+  .ws-animation-enabled .ws-parallax-medium,
+  .ws-animation-enabled .ws-parallax-fast {
+    animation-play-state: running;
+  }
+  
+  .ws-animation-disabled .ws-parallax-slow,
+  .ws-animation-disabled .ws-parallax-medium,
+  .ws-animation-disabled .ws-parallax-fast {
+    animation-play-state: paused;
+  }
+  
+  /* 效能優化 */
+  @media (prefers-reduced-motion: reduce) {
+    .ws-parallax-slow,
+    .ws-parallax-medium,
+    .ws-parallax-fast,
+    .ws-particle {
+      animation: none;
+    }
+    
+    .ws-mouse-follow-slow,
+    .ws-mouse-follow-medium,
+    .ws-mouse-follow-fast {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,417 @@
+/* 
+==============================================
+沃勝家族辦公室 Ghost 主題客製化 CSS
+使用方法：將以下代碼複製到 Ghost 管理後台 > Settings > Code Injection > Site Header
+==============================================
+*/
+
+<style>
+/* === 1. 色彩變數 === */
+:root {
+  /* 品牌主色調 */
+  --brand-primary: hsl(240, 8%, 10%);
+  --brand-secondary: hsl(220, 13%, 18%);
+  --brand-accent: hsl(27, 96%, 61%);
+  --brand-warm: hsl(35, 90%, 70%);
+  
+  /* 漸層色彩 */
+  --gradient-primary: linear-gradient(135deg, hsl(240, 8%, 10%) 0%, hsl(220, 13%, 18%) 100%);
+  --gradient-warm: linear-gradient(135deg, hsl(35, 90%, 70%) 0%, hsl(27, 96%, 61%) 100%);
+  --gradient-professional: linear-gradient(135deg, hsl(220, 13%, 18%) 0%, hsl(210, 20%, 25%) 100%);
+  
+  /* 陰影效果 */
+  --shadow-elegant: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+  --shadow-luxury: 0 20px 60px -10px rgba(0, 0, 0, 0.3);
+  
+  /* 圓角 */
+  --border-radius: 0.75rem;
+  --border-radius-lg: 1rem;
+}
+
+/* === 2. Logo 替換 === */
+.gh-head-logo img {
+  display: none;
+}
+
+.gh-head-logo::after {
+  content: "沃";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--gradient-primary);
+  border-radius: var(--border-radius);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Playfair Display', serif;
+  margin-right: 12px;
+}
+
+.gh-head-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+}
+
+.gh-head-logo::before {
+  content: "沃勝家族辦公室";
+  margin-left: 52px;
+}
+
+/* === 3. 字體載入 === */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+body {
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* === 4. Header 樣式 === */
+.gh-head {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-elegant);
+}
+
+.gh-head-menu a {
+  color: var(--brand-primary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.gh-head-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: var(--gradient-warm);
+  transition: width 0.3s ease;
+}
+
+.gh-head-menu a:hover::after {
+  width: 100%;
+}
+
+/* === 5. 按鈕樣式 === */
+.gh-btn {
+  background: var(--gradient-warm);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 12px 24px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-elegant);
+}
+
+.gh-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-luxury);
+}
+
+/* === 6. 文章卡片樣式 === */
+.post-card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.post-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-luxury);
+}
+
+.post-card-image {
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  overflow: hidden;
+}
+
+.post-card-content {
+  padding: 24px;
+}
+
+.post-card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--brand-primary);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.post-card-excerpt {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #888;
+}
+
+/* === 7. 文章頁面樣式 === */
+.article-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--brand-primary);
+  margin-bottom: 24px;
+}
+
+.article-content {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.article-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+  margin: 48px 0 24px 0;
+}
+
+.article-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--brand-secondary);
+  margin: 36px 0 18px 0;
+}
+
+.article-content blockquote {
+  border-left: 4px solid var(--brand-accent);
+  background: rgba(251, 146, 60, 0.1);
+  padding: 24px;
+  margin: 32px 0;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-style: italic;
+  color: #555;
+}
+
+/* === 8. 分類標籤樣式 === */
+.post-card-tags .post-card-tag {
+  background: var(--gradient-professional);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.post-card-tags .post-card-tag:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-elegant);
+}
+
+/* === 9. 訂閱表單樣式 === */
+.subscribe-form {
+  background: var(--gradient-primary);
+  color: white;
+  padding: 48px;
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  margin: 64px 0;
+  box-shadow: var(--shadow-luxury);
+}
+
+.subscribe-form h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.subscribe-form p {
+  opacity: 0.9;
+  margin-bottom: 32px;
+  font-size: 18px;
+}
+
+.subscribe-form .form-group {
+  display: flex;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.subscribe-form input[type="email"] {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+}
+
+.subscribe-form button {
+  background: var(--gradient-warm);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--border-radius);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elegant);
+}
+
+/* === 10. 導航增強 === */
+.gh-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gh-head-actions::before {
+  content: "返回官網";
+  background: var(--gradient-professional);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.gh-head-actions::before:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elegant);
+}
+
+/* === 11. 響應式設計 === */
+@media (max-width: 768px) {
+  .gh-head-logo::before {
+    display: none;
+  }
+  
+  .subscribe-form {
+    padding: 32px 24px;
+    margin: 32px 0;
+  }
+  
+  .subscribe-form .form-group {
+    flex-direction: column;
+  }
+  
+  .post-card-content {
+    padding: 16px;
+  }
+  
+  .article-title {
+    font-size: 2rem;
+  }
+}
+
+/* === 12. 載入動畫 === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.post-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.post-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* === 13. 深色模式支援 === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-primary: hsl(0, 0%, 95%);
+    --brand-secondary: hsl(0, 0%, 80%);
+  }
+  
+  .post-card {
+    background: hsl(220, 13%, 18%);
+    color: white;
+  }
+  
+  .gh-head {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+</style>
+
+<!-- JavaScript 增強功能 -->
+<script>
+// 添加返回官網功能
+document.addEventListener('DOMContentLoaded', function() {
+  // 為返回官網按鈕添加點擊事件
+  const backToSite = document.querySelector('.gh-head-actions::before');
+  if (backToSite) {
+    backToSite.onclick = function() {
+      window.open('YOUR_MAIN_WEBSITE_URL', '_blank');
+    };
+  }
+  
+  // 平滑滾動
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+  
+  // 載入動畫
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('.post-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'all 0.6s ease';
+    observer.observe(card);
+  });
+});
+</script>
