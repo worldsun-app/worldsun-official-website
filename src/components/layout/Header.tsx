@@ -22,7 +22,8 @@ const Header = () => {
     { name: "首頁", href: "/" },
     { name: "關於我們", href: "/#about" },
     { name: "服務項目", href: "/#services" },
-    { name: "智慧洞察", href: "https://worldsun-family-office.ghost.io", external: true },
+    { name: "產業週報", href: "/industry-analysis" },
+    { name: "智慧洞察", href: "https://www.wsgfo.com", external: true },
     { name: "訂閱策略", href: "https://worldsun-investment-94f00565ff1b.herokuapp.com", external: true },
     { name: "合作夥伴", href: "https://wsappgd.zeabur.app/login", external: true },
     { name: "聯絡我們", href: "/#contact" }
@@ -104,12 +105,12 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className={`${isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-white/80'} transition-smooth relative group`}
+                className={`${isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-white/80'} transition-smooth relative group whitespace-nowrap`}
                 onClick={(e) => handleNavClick(e, item.href, item.external)}
               >
                 {item.name}
@@ -119,7 +120,7 @@ const Header = () => {
           </div>
 
           {/* CTA Button Only */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <Button 
               variant="default" 
               className="bg-primary text-white hover:bg-primary/90 border-0 hover:shadow-elegant transition-smooth"
@@ -148,7 +149,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className={`md:hidden ${isScrolled ? 'text-foreground' : 'text-white'}`}
+            className={`lg:hidden ${isScrolled ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -157,7 +158,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border">
+          <div className="lg:hidden mt-4 pb-4 border-t border-border">
             <div className="flex flex-col space-y-4 pt-4">
               {navItems.map((item) => (
                 <a

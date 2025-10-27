@@ -1,8 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Trophy, Globe, Heart, CheckCircle, TrendingUp } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AboutSection = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleConsultationClick = () => {
+    if (location.pathname === '/') {
+      const element = document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById('contact');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  };
+
   const values = [
     {
       icon: Heart,
@@ -159,6 +180,7 @@ const AboutSection = () => {
               <Button 
                 size="lg" 
                 className="bg-primary text-white hover:bg-primary/90 transition-smooth shadow-elegant"
+                onClick={handleConsultationClick}
               >
                 預約諮詢
               </Button>

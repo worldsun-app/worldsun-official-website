@@ -15,6 +15,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from '@emailjs/browser';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -71,28 +72,50 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // 模擬表單提交
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // IMPORTANT: Replace with your actual EmailJS IDs from your dashboard
+    const serviceID = 'service_debd114';
+    const templateID = 'template_vqimmg8';
+    const publicKey = 'GDdadMUJKP_PQsLFL';
 
-    toast({
-      title: "諮詢申請已送出",
-      description: "我們將於24小時內與您聯繫，感謝您的信任！",
-    });
+    // The form data to be sent, matching the variables in your EmailJS template
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+    };
 
-    // 重置表單
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      service: "",
-      message: ""
-    });
-
-    setIsSubmitting(false);
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        toast({
+          title: "諮詢申請已送出",
+          description: "我們將於24小時內與您聯繫，感謝您的信任！",
+        });
+        
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: ""
+        });
+      }, (err) => {
+        console.error('FAILED...', err);
+        toast({
+          title: "傳送失敗",
+          description: "抱歉，發生了一點問題，請稍後再試。詳情請見主控台。",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (

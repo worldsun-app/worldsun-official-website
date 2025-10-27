@@ -2,18 +2,75 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { ParallaxController } from "@/components/animation/ParallaxController";
+import { motion, AnimatePresence } from "framer-motion";
+
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Member from "./pages/Member";
 import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
+import IndustryAnalysis from "./pages/IndustryAnalysis";
+import IndustryReportPage from "./pages/IndustryReportPage";
 
 const queryClient = new QueryClient();
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: "-5vw",
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+  },
+  out: {
+    opacity: 0,
+    x: "5vw",
+  }
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.4
+};
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <Index />
+          </motion.div>
+        } />
+        <Route path="/industry-analysis" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <IndustryAnalysis />
+          </motion.div>
+        } />
+        <Route path="/industry-reports/:industryName" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <IndustryReportPage />
+          </motion.div>
+        } />
+        {/* Member functionality hidden */}
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <NotFound />
+          </motion.div>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 const App = () => {
   // 背景動畫控制狀態
@@ -41,30 +98,13 @@ const App = () => {
           <div className={`ws-floating-geometry square ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
           <div className={`ws-floating-geometry hexagon ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
           
-          {/* 動畫控制 Toggle Switch - 右下角 */}
-          <div className="fixed bottom-6 right-6 z-[9999]">
-            <Switch
-              checked={animationEnabled}
-              onCheckedChange={(checked) => {
-                setAnimationEnabled(checked);
-                localStorage.setItem('ws-animation-enabled', JSON.stringify(checked));
-              }}
-              className="data-[state=checked]:bg-primary"
-            />
-          </div>
-
           {/* 視差效果控制器 - 第三階段 */}
           <ParallaxController enabled={animationEnabled} />
 
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              {/* Member functionality hidden */}
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AnimatedRoutes />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
@@ -73,3 +113,4 @@ const App = () => {
 };
 
 export default App;
+
