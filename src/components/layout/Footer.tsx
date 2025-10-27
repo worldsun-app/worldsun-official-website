@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { 
   MapPin, 
@@ -8,26 +9,40 @@ import {
 } from "lucide-react";
 
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.substring(1); // remove '#'
+
+    if (location.pathname === '/') {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/', { state: { scrollTo: targetId } });
+    }
   };
 
   const footerLinks = {
     services: [
       { name: "資產配置管理", href: "#services" },
       { name: "家族傳承規劃", href: "#services" },
-      { name: "投資諮詢服務", href: "#services" },
-      { name: "家族治理建議", href: "#services" }
     ],
     company: [
       { name: "關於我們", href: "#about" },
       { name: "投資洞察", href: "#insights" }
     ],
     legal: [
-      { name: "隱私政策", href: "#" },
-      { name: "服務條款", href: "#" },
-      { name: "法律聲明", href: "#" },
-      { name: "合規資訊", href: "#" }
+      { name: "隱私政策", href: "/privacy-policy" },
+      { name: "服務條款", href: "/terms-of-service" },
+      { name: "著作權聲明", href: "/copyright-notice" },
     ]
   };
 
@@ -86,12 +101,13 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.services.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
                     className="text-background/70 hover:text-accent transition-smooth hover:underline"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -103,12 +119,13 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
                     className="text-background/70 hover:text-accent transition-smooth hover:underline"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -120,12 +137,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-background/70 hover:text-accent transition-smooth hover:underline"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -136,9 +153,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-background/20 pt-8 text-center">
           <p className="text-background/60 text-sm">
-            © 2024 沃勝家族辦公室. 版權所有. | 
-            <a href="#privacy" className="hover:text-accent transition-smooth ml-1">隱私政策</a> | 
-            <a href="#terms" className="hover:text-accent transition-smooth ml-1">服務條款</a>
+            © 沃勝家族辦公室. 版權所有. 
           </p>
           <p className="text-background/50 text-xs mt-2">
             本網站所提供之資訊僅供參考，不構成投資建議。投資有風險，請謹慎評估。

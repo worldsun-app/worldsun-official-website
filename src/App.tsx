@@ -7,7 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { ParallaxController } from "@/components/animation/ParallaxController";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Transition } from "framer-motion";
 
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -16,6 +16,10 @@ import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
 import IndustryAnalysis from "./pages/IndustryAnalysis";
 import IndustryReportPage from "./pages/IndustryReportPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CopyrightNotice from "./pages/CopyrightNotice";
+import ComplianceInfo from "./pages/ComplianceInfo";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +38,7 @@ const pageVariants = {
   }
 };
 
-const pageTransition = {
+const pageTransition: Transition = {
   type: "tween",
   ease: "anticipate",
   duration: 0.4
@@ -43,7 +47,7 @@ const pageTransition = {
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
@@ -58,6 +62,26 @@ const AnimatedRoutes = () => {
         <Route path="/industry-reports/:industryName" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <IndustryReportPage />
+          </motion.div>
+        } />
+        <Route path="/privacy-policy" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <PrivacyPolicy />
+          </motion.div>
+        } />
+        <Route path="/terms-of-service" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <TermsOfService />
+          </motion.div>
+        } />
+        <Route path="/copyright-notice" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <CopyrightNotice />
+          </motion.div>
+        } />
+        <Route path="/compliance-info" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <ComplianceInfo />
           </motion.div>
         } />
         {/* Member functionality hidden */}
