@@ -19,7 +19,6 @@ import IndustryReportPage from "./pages/IndustryReportPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CopyrightNotice from "./pages/CopyrightNotice";
-import ComplianceInfo from "./pages/ComplianceInfo";
 import StrategyPage from "./pages/StrategyPage";
 
 const queryClient = new QueryClient();
@@ -84,11 +83,6 @@ const AnimatedRoutes = () => {
         <Route path="/copyright-notice" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <CopyrightNotice />
-          </motion.div>
-        } />
-        <Route path="/compliance-info" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <ComplianceInfo />
           </motion.div>
         } />
         <Route path="/strategies/:strategyName" element={
