@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+// import axios from 'axios'; // Removed axios
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -39,13 +40,53 @@ const IndustryReportPage = () => {
   const { industryName } = useParams<{ industryName: string }>();
   const navigate = useNavigate();
 
-  const [report, setReport] = useState<ReportData | null>(null);
-  const [allIndustries, setAllIndustries] = useState<FullIndustryData[]>([]);
-  const [currentIndustry, setCurrentIndustry] = useState<FullIndustryData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Refactored state management with useQuery
   const [readingTime, setReadingTime] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Use useQuery for report data
+  const backendUrl = import.meta.env.VITE_API_BASE_URL;
+
+  const { 
+    data: report, 
+    isLoading: loadingReport, 
+    error: errorReport 
+  } = useQuery<ReportData>({
+    queryKey: ['industryReport', industryName], // Unique key for this report
+    queryFn: async () => {
+      const response = await fetch(`${backendUrl}/api/industry-reports/${industryName}/latest`);
+      if (!response.ok) throw new Error('Failed to fetch industry report');
+      return response.json();
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30,  // 30 minutes
+    enabled: !!industryName, // Only fetch if industryName exists
+  });
+
+  // Use useQuery for all industries data (shared cache with IndustryAnalysis)
+  const { 
+    data: allIndustriesData, 
+    isLoading: loadingAllIndustries, 
+    error: errorAllIndustries 
+  } = useQuery<FullIndustryData[]>({
+    queryKey: ['industryData'], // Same key as in IndustryAnalysis.tsx for shared cache
+    queryFn: async () => {
+      const response = await fetch(`${backendUrl}/api/industry-data`);
+      if (!response.ok) throw new Error('Failed to fetch all industries data');
+      const apiResponse: { data: FullIndustryData[] } = await response.json();
+      return apiResponse.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30,  // 30 minutes
+  });
+
+  // Derived states from useQuery results
+  const allIndustries = useMemo(() => allIndustriesData?.filter((ind: FullIndustryData) => ind.industry_name !== 'S&P 500') || [], [allIndustriesData]);
+  const currentIndustry = useMemo(() => allIndustriesData?.find((ind: FullIndustryData) => ind.industry_name === industryName) || null, [allIndustriesData, industryName]);
+
+  // Combine loading and error states
+  const loading = loadingReport || loadingAllIndustries;
+  const error = errorReport || errorAllIndustries;
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -60,48 +101,15 @@ const IndustryReportPage = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    window.scrollTo(0, 0); // 每次切換報告時滾動到頂部
-
-    const reportApiUrl = `/api/industry-reports/${industryName}/latest`;
-    const industriesApiUrl = '/api/industry-data';
-
-    // 為 API 回應定義型別
-    interface ApiReportResponse extends ReportData {}
-    interface ApiIndustriesResponse {
-      data: FullIndustryData[];
+    if (report) {
+      const wordsPerMinute = 225;
+      const text = (report.report_part_1 || "") + " " + (report.report_part_2 || "");
+      const wordCount = text.split(/\s+/).length;
+      const time = Math.ceil(wordCount / wordsPerMinute);
+      setReadingTime(time);
+      window.scrollTo(0, 0); // Scroll to top after report data is available
     }
-
-    const fetchReport = axios.get<ApiReportResponse>(reportApiUrl);
-    const fetchAllIndustries = axios.get<ApiIndustriesResponse>(industriesApiUrl);
-
-    Promise.all([fetchReport, fetchAllIndustries])
-      .then(([reportResponse, industriesResponse]) => {
-        const reportData = reportResponse.data;
-        const allIndustriesData = industriesResponse.data.data;
-        const filteredIndustries = allIndustriesData.filter((ind: FullIndustryData) => ind.industry_name !== 'S&P 500');
-
-        setReport(reportData);
-        setAllIndustries(filteredIndustries);
-
-        const foundIndustry = allIndustriesData.find((ind: FullIndustryData) => ind.industry_name === industryName);
-        setCurrentIndustry(foundIndustry || null);
-
-        const wordsPerMinute = 225;
-        const text = (reportData.report_part_1 || "") + " " + (reportData.report_part_2 || "");
-        const wordCount = text.split(/\s+/).length;
-        const time = Math.ceil(wordCount / wordsPerMinute);
-        setReadingTime(time);
-        
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching data:', err);
-        setError('無法載入報告，請稍後再試。');
-        setLoading(false);
-      });
-
-  }, [industryName]);
+  }, [report]);
 
   const getFormattedDate = (dateString: string | undefined) => {
     if (!dateString) return '';
@@ -111,6 +119,31 @@ const IndustryReportPage = () => {
       return '';
     }
   };
+
+  if (loading) {
+    return (
+      <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
+        <Header />
+        <div className="max-w-[1400px] mx-auto px-6 text-center py-20">
+          <h1 className="text-2xl font-semibold">報告載入中...</h1>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
+        <Header />
+        <div className="max-w-[1400px] mx-auto px-6 text-center py-20">
+          <h1 className="text-2xl font-semibold text-red-600">報告載入失敗</h1>
+          <p className="text-gray-600">{(error as Error).message}</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F2F2F2] pt-20">
@@ -125,7 +158,7 @@ const IndustryReportPage = () => {
         <aside className="sticky top-[100px] self-start h-[calc(100vh-120px)] overflow-y-auto">
           <h4 className="text-[1.1rem] font-semibold mb-5 text-[#1C1D1D] border-b border-[#E0E0E0] pb-2.5">所有產業</h4>
           <ul className="list-none p-0 m-0">
-            {allIndustries.map(industry => (
+            {allIndustries.map((industry) => (
               <li key={industry.industry_name} className={industry.industry_name === industryName ? 'bg-[#E9ECEF] rounded-[5px]' : ''}>
                 <Link to={`/industry-reports/${industry.industry_name}`} className="block py-2 px-2.5 no-underline text-[#555] rounded-[5px] transition-colors duration-200 ease-in-out text-[0.95rem] font-['Helvetica_Neue',sans-serif] hover:bg-[#F0F0F0] hover:text-[#1C1D1D]">
                   {industry.industry_name}
@@ -139,18 +172,13 @@ const IndustryReportPage = () => {
         <main className="min-w-0">
           <Link to="/industry-analysis" className="inline-block no-underline text-[#555] font-['Helvetica_Neue',sans-serif] mb-5 transition-colors duration-200 ease-out hover:text-[#1C1D1D]">← 返回產業總覽</Link>
           
-          {loading && !report ? (
-            <div>Loading...</div>
-          ) : error ? (
-            <div>{error}</div>
-          ) : report ? (
+          {report ? (
             <article className="w-full font-['Georgia',serif] text-[#1C1D1D]">
               <header className="mb-10 border-b border-[#E0E0E0] pb-5">
                 <h1 className="text-[2.5rem] font-bold leading-tight mb-2.5">{industryName} 產業週報</h1>
                 <div className="flex items-center text-[#888] text-[0.9rem] mt-5 font-['Helvetica_Neue',sans-serif]">
                   <span className="mr-[15px] after:content-['•'] after:ml-[15px] after:text-[#ccc]">By WSGFO Analyst</span>
                   <span className="mr-[15px] after:content-['•'] after:ml-[15px] after:text-[#ccc]">{getFormattedDate(report?.generated_at)}</span>
-                  <span>{readingTime} min read</span>
                 </div>
                 <p className="text-[1.25rem] text-[#666] italic mt-2.5">{report.preview_summary}</p>
               </header>

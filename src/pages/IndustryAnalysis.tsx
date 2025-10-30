@@ -64,7 +64,9 @@ const IndustryAnalysis = () => {
       }
       const apiResponse: { data: IndustryData[] } = await response.json();
       return apiResponse.data;
-    }
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30, // 30 minutes
   });
 
   const sp500Data = useMemo(() => allData?.find(d => d.industry_name === 'S&P 500') || null, [allData]);
@@ -161,6 +163,8 @@ const IndustryAnalysis = () => {
     );
   }
 
+  const roiOrder = ['1D', '5D', '1M', '3M', '6M', '1Y'];
+
   return (
     <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen overflow-y-scroll pt-20">
       <Header />
@@ -172,12 +176,15 @@ const IndustryAnalysis = () => {
           <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] p-6 border border-[#E0E0E0] mb-8">
             <h4 className="text-2xl font-semibold mb-4">S&P 500 (SPY)</h4>
             <div className="grid [grid-template-columns:repeat(auto-fit,minmax(100px,1fr))] gap-4">
-              {Object.entries(sp500Data.etf_roi).filter(([key]) => key !== 'pe_today').map(([key, value]) => (
-                <div key={key} className="flex flex-col items-center justify-center bg-[#F2F2F2] p-4 rounded-lg">
-                  <span className="text-sm text-gray-500 mb-1">{key}</span>
-                  <span className={`text-xl font-bold ${value! >= 0 ? 'text-green-600' : 'text-red-600'}`}>{value?.toFixed(2)}%</span>
-                </div>
-              ))}
+              {roiOrder.map((key) => {
+                const value = sp500Data.etf_roi[key as keyof EtfRoi];
+                return (
+                  <div key={key} className="flex flex-col items-center justify-center bg-[#F2F2F2] p-4 rounded-lg">
+                    <span className="text-sm text-gray-500 mb-1">{key}</span>
+                    <span className={`text-xl font-bold ${value! >= 0 ? 'text-green-600' : 'text-red-600'}`}>{value?.toFixed(2)}%</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

@@ -18,7 +18,7 @@ const PolicyPage: React.FC<PolicyPageProps> = ({ title, children }) => {
               {title}
             </h1>
           </header>
-          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed font-playfair">
             {children}
           </div>
         </article>

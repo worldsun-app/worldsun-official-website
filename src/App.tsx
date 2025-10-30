@@ -20,6 +20,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CopyrightNotice from "./pages/CopyrightNotice";
 import ComplianceInfo from "./pages/ComplianceInfo";
+import StrategyPage from "./pages/StrategyPage";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,12 @@ const AnimatedRoutes = () => {
             <IndustryReportPage />
           </motion.div>
         } />
+        {/* 新增策略頁面的路由 */}
+        <Route path="/strategies/:strategyName" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <StrategyPage />
+          </motion.div>
+        } />
         <Route path="/privacy-policy" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <PrivacyPolicy />
@@ -82,6 +89,11 @@ const AnimatedRoutes = () => {
         <Route path="/compliance-info" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <ComplianceInfo />
+          </motion.div>
+        } />
+        <Route path="/strategies/:strategyName" element={
+          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+            <StrategyPage />
           </motion.div>
         } />
         {/* Member functionality hidden */}
@@ -137,4 +149,3 @@ const App = () => {
 };
 
 export default App;
-

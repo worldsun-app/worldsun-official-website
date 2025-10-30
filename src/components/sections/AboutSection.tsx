@@ -184,13 +184,6 @@ const AboutSection = () => {
               >
                 預約諮詢
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-primary/30 text-primary hover:bg-primary hover:text-white transition-smooth"
-              >
-                下載簡介
-              </Button>
             </div>
           </div>
         </div>
