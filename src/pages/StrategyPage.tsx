@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Plot from "react-plotly.js";
-import { ReactNode } from "react";
+import { ReactNode, useRef, useState, useEffect } from "react";
 
+import { useDebounce } from "@/hooks/useDebounce";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -36,24 +37,63 @@ interface StrategyPerformanceData {
 // API 基礎 URL
 const API_BASE_URL = "https://investment-dashboard.zeabur.app/api";
 
+// --- Custom Hook for Resizing ---
+const usePlotlyResize = (ref: React.RefObject<HTMLDivElement>) => {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const debouncedDimensions = useDebounce(dimensions, 200);
+
+  useEffect(() => {
+    const getDimensions = () => ({
+      width: ref.current?.offsetWidth || 0,
+      height: ref.current?.offsetHeight || 0,
+    });
+
+    const handleResize = () => {
+      setDimensions(getDimensions());
+    };
+
+    if (ref.current) {
+      setDimensions(getDimensions());
+    }
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [ref]);
+
+  return debouncedDimensions;
+};
+
+
 // --- 通用元件 ---
 
 const PlotlyChart = ({ chartJson }: { chartJson: string }) => {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const { width, height } = usePlotlyResize(chartRef);
+
   if (!chartJson) return null;
   try {
     const chartData = JSON.parse(chartJson);
     if (chartData.layout) {
         chartData.layout.paper_bgcolor = 'rgba(0,0,0,0)';
         chartData.layout.plot_bgcolor = 'rgba(0,0,0,0)';
+        chartData.layout.width = width;
+        chartData.layout.height = height;
     }
     return (
-      <Plot
-        data={chartData.data}
-        layout={chartData.layout}
-        style={{ width: "100%", height: "100%" }}
-        useResizeHandler
-        config={{ displayModeBar: false }}
-      />
+      <div ref={chartRef} style={{ width: "100%", height: "100%" }}>
+        <Plot
+          data={chartData.data}
+          layout={chartData.layout}
+          style={{ width: "100%", height: "100%" }}
+          config={{ displayModeBar: false }}
+        />
+      </div>
     );
   } catch (error) {
     console.error("Failed to parse chart JSON:", error);
@@ -110,9 +150,13 @@ const StrategyIntro = ({ strategyName }: { strategyName: string }) => {
       <Card>
         <CardHeader><CardTitle className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md">資產與產業配置現況</CardTitle></CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-72">
-            <PlotlyChart chartJson={data.asset_allocation_chart} />
-            <PlotlyChart chartJson={data.sector_allocation_chart} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="min-h-[200px] aspect-video">
+              <PlotlyChart chartJson={data.asset_allocation_chart} />
+            </div>
+            <div className="min-h-[200px] aspect-video">
+              <PlotlyChart chartJson={data.sector_allocation_chart} />
+            </div>
           </div>
         </CardContent>
       </Card>
