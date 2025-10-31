@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // Import assets
 import videoSrc from "@/assets/taipei101.mp4";
 import imgMorning from "@/assets/taipei-101-early morning.png";
-import imgMoon from "@/assets/taipei-101-moon.png";
+import imgMoon from "@/assets/taipei-101-moon.jpg";
 import imgNight from "@/assets/taipei-101-night.jpg";
 
 const images = [imgMorning, imgMoon, imgNight];
