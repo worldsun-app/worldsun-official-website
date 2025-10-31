@@ -1,3 +1,4 @@
+import logo from '@/assets/logo.png';
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,6 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
@@ -43,18 +43,16 @@ const ListItem = React.forwardRef<
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={`group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/90 hover:text-white focus:bg-primary/90 focus:text-white ${className}`}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none group-hover:text-white">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-white/90">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
+      <a
+        ref={ref}
+        className={`group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/90 hover:text-white focus:bg-primary/90 focus:text-white ${className}`}
+        {...props}
+      >
+        <div className="text-sm font-medium leading-none group-hover:text-white">{title}</div>
+        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-white/90">
+          {children}
+        </p>
+      </a>
     </li>
   );
 });
@@ -121,14 +119,11 @@ const Header = () => {
           : "bg-black/20 backdrop-blur-sm"
       }`}
     >
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-1">
         <nav className="flex items-center justify-between">
-          {/* Logo */}
           <div className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg font-playfair">沃</span>
-              </div>
+            <Link to="/" className="flex items-center">
+              <img src={logo} alt="沃勝家族辦公室 Logo" className="w-16 h-15" />
               <div>
                 <h1 className={`text-xl font-bold font-playfair ${isScrolled ? 'text-foreground' : 'text-white'}`}>
                   沃勝家族辦公室
