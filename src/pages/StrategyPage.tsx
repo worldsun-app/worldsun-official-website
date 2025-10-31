@@ -316,7 +316,7 @@ const StrategyPage = () => {
         <div className="container mx-auto p-4">
           <Tabs defaultValue="intro">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
-                <h1 className="text-3xl font-bold">{formattedTitle}</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-2.5">{formattedTitle}</h1>
                 <TabsList>
                   <TabsTrigger value="intro">基金介紹</TabsTrigger>
                   <TabsTrigger value="perf">績效分析</TabsTrigger>
