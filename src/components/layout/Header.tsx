@@ -210,18 +210,18 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className={`absolute top-full right-0 mt-2 w-72 lg:hidden rounded-xl border ${isScrolled ? 'bg-background/95 border-border' : 'bg-black/50 border-white/20'} backdrop-blur-lg shadow-xl`}
+              className={`absolute top-full right-0 mt-2 w-72 lg:hidden rounded-xl border ${(!isScrolled && location.pathname === '/') ? 'bg-black/50 border-white/20' : 'bg-background/95 border-border'} backdrop-blur-lg shadow-xl`}
             >
               <div className="flex flex-col p-4 space-y-2">
                 {navItems.flatMap((item) => 
                   item.isDropdown && item.subItems 
                   ? [
-                      <span key={`${item.name}-title`} className={`${isScrolled ? 'text-muted-foreground' : 'text-white/70'} font-semibold px-2 pt-2 text-sm`}>{item.name}</span>,
+                      <span key={`${item.name}-title`} className={`${(!isScrolled && location.pathname === '/') ? 'text-white/70' : 'text-muted-foreground'} font-semibold px-2 pt-2 text-sm`}>{item.name}</span>,
                       ...item.subItems.map(subItem => (
                         <Link
                           key={subItem.name}
                           to={subItem.href}
-                          className={`${isScrolled ? 'text-foreground' : 'text-white/90'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
+                          className={`${(!isScrolled && location.pathname === '/') ? 'text-white/90' : 'text-foreground'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
                           onClick={(e) => handleNavClick(e, subItem.href, subItem.external)}
                         >
                           {subItem.name}
@@ -232,14 +232,14 @@ const Header = () => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`${isScrolled ? 'text-foreground' : 'text-white/90'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
+                      className={`${(!isScrolled && location.pathname === '/') ? 'text-white/90' : 'text-foreground'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
                       onClick={(e) => handleNavClick(e, item.href, item.external)}
                     >
                       {item.name}
                     </Link>
                   )
                 )}
-                <div className="border-t w-full my-2" style={{ borderColor: isScrolled ? 'hsl(var(--border))' : 'rgba(255,255,255,0.2)' }}></div>
+                <div className="border-t w-full my-2" style={{ borderColor: (!isScrolled && location.pathname === '/') ? 'rgba(255,255,255,0.2)' : 'hsl(var(--border))' }}></div>
                 <Button 
                   variant="default" 
                   className="bg-primary text-white hover:bg-primary/90 border-0 w-full mt-2"

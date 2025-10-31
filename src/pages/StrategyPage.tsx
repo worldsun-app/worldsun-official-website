@@ -9,10 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-// --- 類型定義 (Interfaces) ---
-
 interface RiskFrameworkItem {
-  icon: string; // 雖然原始碼中有 icon，但我們這裡先用 title
+  icon: string;
   title: string;
   desc: string;
 }
