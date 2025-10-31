@@ -218,7 +218,6 @@ const IndustryReportPage = () => {
                   <div className="flex flex-wrap items-center text-[#888] text-sm mt-4 font-['Helvetica_Neue',sans-serif]">
                     <span className="mr-3 mb-1">By WSGFO Analyst</span>
                     <span className="mr-3 mb-1">{getFormattedDate(report?.generated_at)}</span>
-                    <span>{readingTime} min read</span>
                   </div>
                   <p className="text-lg text-[#666] italic mt-4">{report.preview_summary}</p>
                 </header>
