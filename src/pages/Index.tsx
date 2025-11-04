@@ -2,10 +2,13 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import NomalHeroSection from "@/components/sections/NomalHeroSection";
-import AboutSection from "@/components/sections/AboutSection";
-import ServicesSection from "@/components/sections/ServicesSection";
-import InsightsSection from "@/components/sections/InsightsSection";
+import WosunHeroSection from "@/components/sections/WosunHeroSection";
+import PhilosophySection from "@/components/sections/PhilosophySection";
+import PurposeSection from "@/components/sections/PurposeSection";
+import WosunServicesSection from "@/components/sections/WosunServicesSection";
+import StorySection from "@/components/sections/StorySection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import FinalCTASection from "@/components/sections/FinalCTASection";
 import ContactSection from "@/components/sections/ContactSection";
 
 const Index = () => {
@@ -24,10 +27,13 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <NomalHeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <InsightsSection />
+        <WosunHeroSection />
+        <PhilosophySection />
+        <PurposeSection />
+        <WosunServicesSection />
+        <StorySection />
+        <TestimonialsSection />
+        <FinalCTASection />
         <ContactSection />
       </main>
       <Footer />
