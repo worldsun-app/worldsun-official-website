@@ -2,32 +2,20 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const FinalCTASection = () => {
-  return (
-    <section className="section-spacing bg-gradient-to-br from-background via-secondary/5 to-background relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <svg className="w-full h-full" viewBox="0 0 1200 600">
-          <defs>
-            <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="currentColor" className="text-secondary" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="currentColor" className="text-accent" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="currentColor" className="text-secondary" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M 0,300 Q 300,200 600,300 T 1200,300"
-            fill="none"
-            stroke="url(#pathGradient)"
-            strokeWidth="2"
-          />
-        </svg>
-      </div>
+  const handleContact = () => {
+    const element = document.getElementById('contact');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
+  return (
+    <section className="py-20 md:py-32 bg-gradient-to-br from-background via-secondary/5 to-background relative overflow-hidden">
       {/* Floating Light Elements */}
       <div className="absolute top-1/3 left-1/4 w-32 h-32 bg-secondary/10 rounded-full blur-2xl animate-float" />
       <div className="absolute bottom-1/3 right-1/4 w-40 h-40 bg-accent/10 rounded-full blur-2xl animate-float" style={{ animationDelay: '1.5s' }} />
 
-      <div className="container-elegant relative z-10">
+      <div className="container mx-auto px-6 max-w-5xl relative z-10">
         <div className="max-w-3xl mx-auto text-center space-y-10 animate-fade-in">
           {/* Section Label */}
           <div className="inline-flex items-center space-x-2 text-secondary font-medium tracking-wider text-sm uppercase">
@@ -38,7 +26,7 @@ const FinalCTASection = () => {
 
           {/* Main Message */}
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-noto-serif text-foreground leading-tight">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-noto-serif text-foreground leading-tight">
               我們相信，傳承的起點，
               <br />
               <span className="text-secondary">是一場真誠的對話。</span>
@@ -66,12 +54,7 @@ const FinalCTASection = () => {
             <Button
               size="lg"
               className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg transition-smooth shadow-luxury group"
-              onClick={() => {
-                const element = document.getElementById('contact');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={handleContact}
             >
               與我們聯繫
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

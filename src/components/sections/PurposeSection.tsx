@@ -23,8 +23,8 @@ const PurposeSection = () => {
   ];
 
   return (
-    <section className="section-spacing bg-background relative">
-      <div className="container-elegant">
+    <section className="py-20 md:py-32 bg-background relative">
+      <div className="container mx-auto px-6 max-w-7xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 text-secondary font-medium tracking-wider text-sm uppercase mb-6">
@@ -32,7 +32,7 @@ const PurposeSection = () => {
             <span>我們的使命</span>
             <div className="w-8 h-px bg-secondary" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-noto-serif text-foreground">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-noto-serif text-foreground">
             核心價值
           </h2>
         </div>
@@ -44,7 +44,7 @@ const PurposeSection = () => {
             return (
               <div
                 key={index}
-                className="card-elegant group hover:border-secondary/30 animate-scale-in"
+                className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-8 text-center shadow-card hover:shadow-elegant transition-smooth group hover:border-secondary/30 animate-scale-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Icon */}
@@ -53,7 +53,7 @@ const PurposeSection = () => {
                 </div>
 
                 {/* Content */}
-                <div className="text-center space-y-4">
+                <div className="space-y-4">
                   <h3 className="text-xl font-noto-serif text-foreground group-hover:text-secondary transition-smooth">
                     {purpose.title}
                   </h3>

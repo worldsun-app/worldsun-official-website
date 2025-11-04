@@ -1,16 +1,15 @@
 const PhilosophySection = () => {
   return (
-    <section className="section-spacing bg-gradient-subtle relative overflow-hidden">
-      {/* Background Tree of Life Pattern */}
+    <section className="py-20 md:py-32 bg-gradient-subtle relative overflow-hidden">
+      {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
-        <svg className="w-full h-full" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="400" cy="300" r="150" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-secondary" />
-          <circle cx="400" cy="300" r="100" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-secondary" />
-          <circle cx="400" cy="300" r="50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-secondary" />
-        </svg>
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle, hsl(var(--secondary)) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }} />
       </div>
 
-      <div className="container-elegant relative z-10">
+      <div className="container mx-auto px-6 max-w-5xl relative z-10">
         <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in">
           {/* Section Label */}
           <div className="inline-flex items-center space-x-2 text-secondary font-medium tracking-wider text-sm uppercase">
@@ -27,7 +26,6 @@ const PhilosophySection = () => {
             
             <p className="text-xl md:text-2xl text-foreground-soft leading-relaxed">
               「利他」是沃勝的核心信念。我們從理解家族的初心出發，
-              <br />
               將每一次的規劃，都視為一段關於責任、願景與關係的旅程。
             </p>
 

@@ -29,12 +29,12 @@ const WosunServicesSection = () => {
   ];
 
   return (
-    <section className="section-spacing bg-gradient-subtle relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-gradient-subtle relative overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
 
-      <div className="container-elegant relative z-10">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 text-secondary font-medium tracking-wider text-sm uppercase mb-6">

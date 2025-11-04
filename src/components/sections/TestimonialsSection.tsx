@@ -16,20 +16,8 @@ const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="section-spacing bg-gradient-to-br from-secondary/5 via-background to-accent/5 relative overflow-hidden">
-      {/* Soft Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <svg className="w-full h-full" viewBox="0 0 800 400">
-          <defs>
-            <pattern id="quotePattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-              <text x="40" y="50" fontSize="40" fill="currentColor" className="text-secondary" opacity="0.3">"</text>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#quotePattern)" />
-        </svg>
-      </div>
-
-      <div className="container-elegant relative z-10">
+    <section className="py-20 md:py-32 bg-gradient-to-br from-secondary/5 via-background to-accent/5 relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-6xl relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 text-secondary font-medium tracking-wider text-sm uppercase mb-6">
@@ -79,8 +67,8 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-1/4 left-8 w-2 h-2 rounded-full bg-accent animate-glow-pulse" />
-        <div className="absolute top-2/3 right-12 w-2 h-2 rounded-full bg-secondary animate-glow-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-8 w-2 h-2 rounded-full bg-accent animate-pulse" />
+        <div className="absolute top-2/3 right-12 w-2 h-2 rounded-full bg-secondary animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
     </section>
   );
