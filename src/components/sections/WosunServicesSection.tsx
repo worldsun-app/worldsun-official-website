@@ -1,4 +1,4 @@
-import { Sprout, Briefcase, Bird as Dove, Globe } from "lucide-react";
+import { Sprout, Briefcase, Heart, Globe } from "lucide-react";
 
 const WosunServicesSection = () => {
   const services = [
@@ -15,7 +15,7 @@ const WosunServicesSection = () => {
       english: "Aligning wealth with purpose for long-term resilience."
     },
     {
-      icon: Dove,
+      icon: Heart,
       name: "傳承設計",
       description: "不止於文件，而是愛與信任的延續。",
       english: "Beyond paperwork — continuing love and shared meaning."

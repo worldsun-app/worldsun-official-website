@@ -1,4 +1,4 @@
-import { Leaf, Bird, Handshake } from "lucide-react";
+import { Leaf, Heart, Handshake } from "lucide-react";
 
 const PurposeSection = () => {
   const purposes = [
@@ -9,7 +9,7 @@ const PurposeSection = () => {
       english: "Altruism first — we design strategies where shared prosperity defines success."
     },
     {
-      icon: Bird,
+      icon: Heart,
       title: "長遠傳承，代代相續",
       description: "我們不只守護資產，更守護家族的信念與文化。",
       english: "Legacy that lasts — protecting not just wealth, but the principles that define generations."
