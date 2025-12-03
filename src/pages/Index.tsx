@@ -5,7 +5,8 @@ import Footer from "@/components/layout/Footer";
 import NomalHeroSection from "@/components/sections/NomalHeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import ServicesSection from "@/components/sections/ServicesSection";
-import InsightsSection from "@/components/sections/InsightsSection";
+// import InsightsSection from "@/components/sections/InsightsSection";
+import FeaturedInsights from "@/components/sections/FeaturedInsights";
 import ContactSection from "@/components/sections/ContactSection";
 
 const Index = () => {
@@ -27,7 +28,8 @@ const Index = () => {
         <NomalHeroSection />
         <AboutSection />
         <ServicesSection />
-        <InsightsSection />
+        <FeaturedInsights />
+        {/* <InsightsSection /> */}
         <ContactSection />
       </main>
       <Footer />

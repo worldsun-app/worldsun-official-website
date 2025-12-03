@@ -17,5 +17,6 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    allowedHosts: ['nonperverted-melodiously-geraldo.ngrok-free.dev'],
   },
 });
