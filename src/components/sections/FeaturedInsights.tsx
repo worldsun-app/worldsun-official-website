@@ -37,7 +37,7 @@ const FeaturedInsights = () => {
                         精選洞察
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        來自我們專業團隊的最新市場分析與觀點
+                        專業投資觀點與家族傳承智慧
                     </p>
                 </div>
 

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from '@/assets/logo.png';
 
 import { 
   MapPin, 
@@ -63,12 +64,10 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg font-playfair">沃</span>
-              </div>
+              <img src={logo} alt="沃勝家族辦公室 Logo" className="w-16 h-15" />
               <div>
                 <h3 className="text-xl font-bold font-playfair">沃勝家族辦公室</h3>
-                <p className="text-sm text-background/70">跨世代財富傳承專家</p>
+                <p className="text-sm text-background/70">跨世代財富傳承</p>
               </div>
             </div>
             
