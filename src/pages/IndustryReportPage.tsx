@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Menu, X } from 'lucide-react';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Progress } from "@/components/ui/progress";
+import { fetchStream } from "@/lib/stream";
 
 interface Stock {
   symbol: string;
@@ -41,6 +43,8 @@ const IndustryReportPage = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [reportProgress, setReportProgress] = useState(0);
+  const [industriesProgress, setIndustriesProgress] = useState(0);
 
   const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -51,9 +55,11 @@ const IndustryReportPage = () => {
   } = useQuery<ReportData>({
     queryKey: ['industryReport', industryName],
     queryFn: async () => {
-      const response = await fetch(`${backendUrl}/api/industry-reports/${industryName}/latest`);
-      if (!response.ok) throw new Error('Failed to fetch industry report');
-      return response.json();
+        return fetchStream<ReportData>(
+            `${backendUrl}/api/industry-reports/${industryName}/latest`,
+            {},
+            setReportProgress
+        );
     },
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
@@ -67,10 +73,12 @@ const IndustryReportPage = () => {
   } = useQuery<FullIndustryData[]>({
     queryKey: ['industryData'],
     queryFn: async () => {
-      const response = await fetch(`${backendUrl}/api/industry-data`);
-      if (!response.ok) throw new Error('Failed to fetch all industries data');
-      const apiResponse: { data: FullIndustryData[] } = await response.json();
-      return apiResponse.data;
+      const response = await fetchStream<{ data: FullIndustryData[] }>(
+        `${backendUrl}/api/industry-data`,
+        {},
+        setIndustriesProgress
+      );
+      return response.data;
     },
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
@@ -165,11 +173,18 @@ const IndustryReportPage = () => {
   );
 
   if (loading) {
+    const currentReportProgress = loadingReport ? reportProgress : 100;
+    const currentIndustriesProgress = loadingAllIndustries ? industriesProgress : 100;
+    const totalProgress = (currentReportProgress + currentIndustriesProgress) / 2;
     return (
       <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
         <Header />
-        <div className="max-w-[1400px] mx-auto px-6 text-center py-20">
-          <h1 className="text-2xl font-semibold">報告載入中...</h1>
+        <div className="max-w-[1400px] mx-auto px-6 text-center py-20 flex flex-col items-center">
+          <h1 className="text-2xl font-semibold mb-4">報告載入中...</h1>
+          <div className="w-1/2">
+            <Progress value={totalProgress} className="w-full" />
+            <p className="text-sm text-gray-600 mt-2">{Math.round(totalProgress)}%</p>
+          </div>
         </div>
         <Footer />
       </div>

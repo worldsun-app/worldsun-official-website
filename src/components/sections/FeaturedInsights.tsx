@@ -30,7 +30,7 @@ const FeaturedInsights = () => {
                 <div className="text-center mb-16 animate-fade-in">
                     <div className="inline-flex items-center space-x-4 mb-8">
                         <div className="w-8 h-0.5 bg-secondary"></div>
-                        <span className="text-sm text-muted-foreground tracking-widest uppercase">Latest Insights</span>
+                        <span className="text-sm text-muted-foreground tracking-widest uppercase">Featured Insights</span>
                         <div className="w-8 h-0.5 bg-primary"></div>
                     </div>
                     <h2 className="text-4xl lg:text-6xl font-bold font-playfair mb-6 text-foreground">
@@ -61,7 +61,7 @@ const FeaturedInsights = () => {
                                     <img
                                         src={post.feature_image}
                                         alt={post.title}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </div>
                             )}
@@ -101,17 +101,32 @@ const FeaturedInsights = () => {
                 </div>
 
                 {/* View All Button */}
-                <div className="text-center mt-12">
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
-                        onClick={() => window.open('https://www.wsgfo.com/', '_blank')}
-                    >
-                        查看更多文章
-                        <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                </div>
+                <div className="text-center mt-20 animate-scale-in">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-primary/5 rounded-3xl blur-xl"></div>
+                        <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 shadow-luxury rounded-2xl p-8 max-w-md mx-auto">
+                        <h4 className="text-xl font-bold font-playfair mb-4 text-primary">
+                            探索更多洞察
+                        </h4>
+                        <p className="text-muted-foreground text-sm mb-6">
+                            深入了解投資策略與傳承智慧
+                        </p>
+                        <Button 
+                            size="lg" 
+                            className="bg-primary text-white hover:bg-primary/90 border-0 shadow-elegant group"
+                            onClick={() => {
+                            const element = document.getElementById('contact');
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth' });
+                            }
+                            }}
+                        >
+                            查看所有文章
+                            <ArrowRight className="lucide lucide-arrow-right ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                        </div>
+                    </div>
+                    </div>
             </div>
         </section>
     );

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Progress } from "@/components/ui/progress";
+import { fetchStream } from "@/lib/stream";
 
 import PeRatioBar from "@/components/PeRatioBar";
 
@@ -51,6 +53,7 @@ const IndustryAnalysis = () => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'industry_name', direction: 'ascending' });
   const [hoveredIndustrySummary, setHoveredIndustrySummary] = useState<string | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number; direction: 'up' | 'down' } | null>(null);
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_API_BASE_URL;
@@ -58,12 +61,12 @@ const IndustryAnalysis = () => {
   const { data: allData, isLoading, error } = useQuery<IndustryData[]>({
     queryKey: ['industryData'],
     queryFn: async () => {
-      const response = await fetch(`${backendUrl}/api/industry-data`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok when fetching industry data');
-      }
-      const apiResponse: { data: IndustryData[] } = await response.json();
-      return apiResponse.data;
+      const response = await fetchStream<{ data: IndustryData[] }>(
+        `${backendUrl}/api/industry-data`,
+        {},
+        setProgress
+      );
+      return response.data;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 30, // 30 minutes
@@ -142,8 +145,12 @@ const IndustryAnalysis = () => {
     return (
       <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
         <Header />
-        <div className="max-w-[1400px] mx-auto px-6 text-center py-20">
-          <h1 className="text-2xl font-semibold">資料載入中...</h1>
+        <div className="max-w-[1400px] mx-auto px-6 text-center py-20 flex flex-col items-center">
+          <h1 className="text-2xl font-semibold mb-4">資料載入中...</h1>
+          <div className="w-1/2">
+            <Progress value={progress} className="w-full" />
+            <p className="text-sm text-gray-600 mt-2">{progress}%</p>
+          </div>
         </div>
         <Footer />
       </div>
