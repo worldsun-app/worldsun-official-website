@@ -87,7 +87,6 @@ const Header = () => {
     },
     { name: "智慧洞察", href: "https://www.wsgfo.com", external: true },
     { name: "合作夥伴", href: "https://wsappgd.zeabur.app/login", external: true },
-    { name: "聯絡我們", href: "/#contact" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string, external?: boolean) => {

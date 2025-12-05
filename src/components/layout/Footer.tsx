@@ -38,7 +38,7 @@ const Footer = () => {
     ],
     company: [
       { name: "關於我們", href: "#about" },
-      { name: "投資洞察", href: "#insights" }
+      { name: "精選洞察", href: "#featured-insights" }
     ],
     legal: [
       { name: "隱私政策", href: "/privacy-policy" },

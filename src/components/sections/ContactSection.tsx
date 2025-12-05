@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Send, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
   CheckCircle,
   ArrowRight
 } from "lucide-react";
@@ -96,7 +96,7 @@ const ContactSection = () => {
           title: "諮詢申請已送出",
           description: "我們將於24小時內與您聯繫，感謝您的信任！",
         });
-        
+
         // Reset form
         setFormData({
           name: "",
@@ -137,7 +137,7 @@ const ContactSection = () => {
                 {contactInfo.map((info, index) => {
                   const Icon = info.icon;
                   return (
-                    <Card 
+                    <Card
                       key={index}
                       className="shadow-card hover:shadow-luxury transition-smooth hover:-translate-y-1"
                     >
@@ -188,9 +188,8 @@ const ContactSection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="請輸入您的聯絡電話"
+                    placeholder="請輸入您的聯絡電話 (非必填)"
                     className="h-12 border-border focus:border-secondary focus:ring-secondary/20"
-                    required
                   />
                 </div>
 
@@ -208,7 +207,7 @@ const ContactSection = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <Label htmlFor="message" className="text-secondary font-medium">諮詢需求</Label>
                   <Textarea
                     id="message"
@@ -217,13 +216,19 @@ const ContactSection = () => {
                     onChange={handleInputChange}
                     placeholder="請簡述您的財富管理需求"
                     rows={5}
-                    className="border-border focus:border-secondary focus:ring-secondary/20"
+                    maxLength={500}
+                    className="border-border focus:border-secondary focus:ring-secondary/20 resize-none"
                   />
+                  {formData.message.length > 450 && (
+                    <span className="absolute bottom-2 right-2 text-xs text-muted-foreground bg-white/80 px-1 rounded pointer-events-none">
+                      {formData.message.length}/500
+                    </span>
+                  )}
                 </div>
 
-                <Button 
-                  type="submit" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  size="lg"
                   className="w-full h-12 bg-secondary hover:bg-secondary/90 text-white rounded-md font-medium text-base shadow-lg disabled:opacity-50"
                   disabled={isSubmitting}
                 >
