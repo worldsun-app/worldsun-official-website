@@ -80,17 +80,17 @@ const NomalHeroSection = () => {
 
       {/* Main Content */}
       <div className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-6 pb-24">
+        <div className="max-w-7xl mx-auto px-6 pb-32 md:pb-24">
           <div className="max-w-4xl">
             <div>
-              <p className="text-xl md:text-2xl text-white/90 font-light tracking-widest mb-6">
+              <p className="text-base md:text-2xl text-white/90 font-light tracking-widest mb-4 md:mb-6">
                 Wealth Beyond Generations.
               </p>
               <div className="space-y-2">
-                <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-white tracking-tight leading-[0.85] font-playfair">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-white tracking-tight leading-[0.85] font-playfair">
                   永續
                 </h1>
-                <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-primary tracking-tight leading-[0.85] font-playfair ml-8 md:ml-16">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-primary tracking-tight leading-[0.85] font-playfair ml-8 md:ml-16">
                   傳承
                 </h1>
               </div>
@@ -100,8 +100,8 @@ const NomalHeroSection = () => {
       </div>
 
       {/* Location Markers */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex items-center space-x-6 text-white/70 text-sm font-light tracking-wider">
+      <div className="absolute bottom-10 md:bottom-16 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex items-center space-x-4 md:space-x-6 text-white/70 text-xs md:text-sm font-light tracking-wider">
           <span>台北</span>
           <span className="w-1 h-1 bg-white/50 rounded-full"></span>
           <span>香港</span>

@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from '@/assets/logo.png';
 
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
+import {
+  MapPin,
+  Phone,
+  Mail,
   ArrowUp
 } from "lucide-react";
 
@@ -70,7 +70,7 @@ const Footer = () => {
                 <p className="text-sm text-background/70">跨世代財富傳承</p>
               </div>
             </div>
-            
+
             <p className="text-background/80 leading-relaxed">
               沃勝家族辦公室致力於為高淨值家族提供專業的財富管理與傳承服務，
               結合投資專業與家族情懷，助您實現跨世代的財富永續與價值傳承。
@@ -82,14 +82,20 @@ const Footer = () => {
                 <MapPin className="w-4 h-4 mr-3 text-accent" />
                 台北市大安區敦化南路二段76號5樓之2
               </div>
-              <div className="flex items-center text-background/80">
+              <a href="tel:+886277053298" target="_blank" rel="noopener noreferrer" className="flex items-center text-background/80 hover:text-accent transition-smooth">
                 <Phone className="w-4 h-4 mr-3 text-accent" />
                 +886 2 7705-3298
-              </div>
-              <div className="flex items-center text-background/80">
+              </a>
+              {/* Mobile Email Link - Mailto */}
+              <a href="mailto:service@wsgfo.com" target="_blank" rel="noopener noreferrer" className="flex md:hidden items-center text-background/80 hover:text-accent transition-smooth">
                 <Mail className="w-4 h-4 mr-3 text-accent" />
                 service@wsgfo.com
-              </div>
+              </a>
+              {/* Desktop Email Link - Gmail Web */}
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=service@wsgfo.com" target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center text-background/80 hover:text-accent transition-smooth">
+                <Mail className="w-4 h-4 mr-3 text-accent" />
+                service@wsgfo.com
+              </a>
             </div>
 
           </div>
@@ -152,7 +158,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-background/20 pt-8 text-center">
           <p className="text-background/60 text-sm">
-            © 沃勝家族辦公室. 版權所有. 
+            © 沃勝家族辦公室. 版權所有.
           </p>
           <p className="text-background/50 text-xs mt-2">
             本網站所提供之資訊僅供參考，不構成投資建議。投資有風險，請謹慎評估。

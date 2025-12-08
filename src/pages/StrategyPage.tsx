@@ -81,6 +81,13 @@ const PlotlyChart = ({ chartJson }: { chartJson: string }) => {
       chartData.layout.plot_bgcolor = 'rgba(0,0,0,0)';
       chartData.layout.width = width;
       chartData.layout.height = height;
+
+      // Disable interaction for mobile friendliness (prevent accidental zoom/pan)
+      chartData.layout.dragmode = false;
+      if (!chartData.layout.xaxis) chartData.layout.xaxis = {};
+      if (!chartData.layout.yaxis) chartData.layout.yaxis = {};
+      chartData.layout.xaxis.fixedrange = true;
+      chartData.layout.yaxis.fixedrange = true;
     }
     return (
       <div ref={chartRef} style={{ width: "100%", height: "100%" }}>
@@ -88,7 +95,7 @@ const PlotlyChart = ({ chartJson }: { chartJson: string }) => {
           data={chartData.data}
           layout={chartData.layout}
           style={{ width: "100%", height: "100%" }}
-          config={{ displayModeBar: false }}
+          config={{ displayModeBar: false, scrollZoom: false }}
         />
       </div>
     );
@@ -155,19 +162,25 @@ const StrategyIntro = ({ strategyName }: { strategyName: string }) => {
         <CardHeader><CardTitle className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md">資產與產業配置現況</CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="min-h-[200px] aspect-video">
-              <PlotlyChart chartJson={data.asset_allocation_chart} />
+            <div className="overflow-x-auto">
+              <div className="min-w-[500px] md:min-w-0 h-[300px] md:h-auto md:aspect-video mx-auto">
+                <PlotlyChart chartJson={data.asset_allocation_chart} />
+              </div>
             </div>
-            <div className="min-h-[200px] aspect-video">
-              <PlotlyChart chartJson={data.sector_allocation_chart} />
+            <div className="overflow-x-auto">
+              <div className="min-w-[500px] md:min-w-0 h-[300px] md:h-auto md:aspect-video mx-auto">
+                <PlotlyChart chartJson={data.sector_allocation_chart} />
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader><CardTitle className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md">成分股累積報酬</CardTitle></CardHeader>
-        <CardContent className="h-96">
-          <PlotlyChart chartJson={data.components_bar_chart} />
+        <CardContent className="h-96 overflow-x-auto">
+          <div className="min-w-[800px] md:min-w-0 h-full mx-auto">
+            <PlotlyChart chartJson={data.components_bar_chart} />
+          </div>
         </CardContent>
       </Card>
       <Card>
@@ -243,7 +256,7 @@ const StrategyPerformance = ({ strategyName }: { strategyName: string }) => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
             {kpiMetrics.map(([key, value]) => (
               <div key={key} className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg">
-                <div className="text-2xl font-bold">{value as ReactNode}</div>
+                <div className="text-xl md:text-2xl font-bold">{value as ReactNode}</div>
                 <div className="text-sm text-muted-foreground capitalize">{metricLabels[key] || key.replace(/_/g, ' ')}</div>
               </div>
             ))}
@@ -252,15 +265,19 @@ const StrategyPerformance = ({ strategyName }: { strategyName: string }) => {
       </Card>
       <Card>
         <CardHeader><CardTitle className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md">基金績效與指標比較</CardTitle></CardHeader>
-        <CardContent className="h-96">
-          <PlotlyChart chartJson={data.performance_chart} />
+        <CardContent className="h-96 overflow-x-auto">
+          <div className="min-w-[800px] md:min-w-0 h-full mx-auto">
+            <PlotlyChart chartJson={data.performance_chart} />
+          </div>
         </CardContent>
       </Card>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <Card className="lg:col-span-8">
           <CardHeader><CardTitle className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-md">月報酬熱力圖</CardTitle></CardHeader>
-          <CardContent className="h-72">
-            <PlotlyChart chartJson={data.heatmap_chart} />
+          <CardContent className="h-72 overflow-x-auto">
+            <div className="min-w-[600px] md:min-w-0 h-full mx-auto">
+              <PlotlyChart chartJson={data.heatmap_chart} />
+            </div>
           </CardContent>
         </Card>
         <Card className="lg:col-span-4">

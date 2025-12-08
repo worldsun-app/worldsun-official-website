@@ -48,28 +48,28 @@ const IndustryReportPage = () => {
 
   const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
-  const { 
-    data: report, 
-    isLoading: loadingReport, 
-    error: errorReport 
+  const {
+    data: report,
+    isLoading: loadingReport,
+    error: errorReport
   } = useQuery<ReportData>({
     queryKey: ['industryReport', industryName],
     queryFn: async () => {
-        return fetchStream<ReportData>(
-            `${backendUrl}/api/industry-reports/${industryName}/latest`,
-            {},
-            setReportProgress
-        );
+      return fetchStream<ReportData>(
+        `${backendUrl}/api/industry-reports/${industryName}/latest`,
+        {},
+        setReportProgress
+      );
     },
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
     enabled: !!industryName,
   });
 
-  const { 
-    data: allIndustriesData, 
-    isLoading: loadingAllIndustries, 
-    error: errorAllIndustries 
+  const {
+    data: allIndustriesData,
+    isLoading: loadingAllIndustries,
+    error: errorAllIndustries
   } = useQuery<FullIndustryData[]>({
     queryKey: ['industryData'],
     queryFn: async () => {
@@ -86,6 +86,21 @@ const IndustryReportPage = () => {
 
   const allIndustries = useMemo(() => allIndustriesData?.filter((ind: FullIndustryData) => ind.industry_name !== 'S&P 500') || [], [allIndustriesData]);
   const currentIndustry = useMemo(() => allIndustriesData?.find((ind: FullIndustryData) => ind.industry_name === industryName) || null, [allIndustriesData, industryName]);
+
+  const { prevIndustry, nextIndustry } = useMemo(() => {
+    if (!allIndustries.length || !industryName) return { prevIndustry: null, nextIndustry: null };
+    const currentIndex = allIndustries.findIndex(ind => ind.industry_name === industryName);
+    if (currentIndex === -1) return { prevIndustry: null, nextIndustry: null };
+
+    // Circular logic
+    const prevIndex = (currentIndex - 1 + allIndustries.length) % allIndustries.length;
+    const nextIndex = (currentIndex + 1) % allIndustries.length;
+
+    return {
+      prevIndustry: allIndustries[prevIndex],
+      nextIndustry: allIndustries[nextIndex]
+    };
+  }, [allIndustries, industryName]);
 
   const loading = loadingReport || loadingAllIndustries;
   const error = errorReport || errorAllIndustries;
@@ -207,11 +222,11 @@ const IndustryReportPage = () => {
   return (
     <div className="bg-[#F2F2F2] pt-20">
       <Header />
-      <div style={{ width: `${scrollProgress}%` }} className="fixed top-[80px] left-0 h-1 bg-gradient-to-r from-[#185897] to-[#2287BC] z-[1000] transition-width duration-100 ease-out"/>
-      
+      <div style={{ width: `${scrollProgress}%` }} className="fixed top-[80px] left-0 h-1 bg-gradient-to-r from-[#185897] to-[#2287BC] z-[1000] transition-width duration-100 ease-out" />
+
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr_250px] gap-8">
-          
+
           {/* Left Sidebar (Desktop) */}
           <aside className="hidden lg:block sticky top-[100px] self-start h-[calc(100vh-120px)] overflow-y-auto">
             {renderIndustryList()}
@@ -225,7 +240,7 @@ const IndustryReportPage = () => {
             </div>
 
             <Link to="/industry-analysis" className="inline-block no-underline text-[#555] font-['Helvetica_Neue',sans-serif] mb-5 transition-colors duration-200 ease-out hover:text-[#1C1D1D] lg:mt-0 mt-[70px]">← 返回產業總覽</Link>
-            
+
             {report ? (
               <article className="w-full font-['Georgia',serif] text-[#1C1D1D]">
                 <header className="mb-10 border-b border-[#E0E0E0] pb-5">
@@ -236,10 +251,26 @@ const IndustryReportPage = () => {
                   </div>
                   <p className="text-lg text-[#666] italic mt-4">{report.preview_summary}</p>
                 </header>
-                <section className="max-w-none text-[1.125rem] leading-loose whitespace-pre-wrap">
+                <section className="max-w-none text-base md:text-[1.125rem] leading-loose whitespace-pre-wrap">
                   <p>{report.report_part_1}</p>
                   <p>{report.report_part_2}</p>
                 </section>
+
+                {/* Mobile Circular Navigation */}
+                <div className="flex justify-between items-center mt-12 pt-6 border-t border-[#E0E0E0] md:hidden">
+                  {prevIndustry && (
+                    <Link to={`/industry-reports/${prevIndustry.industry_name}`} className="flex flex-col items-start max-w-[45%] text-[#185897] no-underline">
+                      <span className="text-xs text-gray-500 mb-1">← 上一篇</span>
+                      <span className="text-sm font-semibold line-clamp-2">{prevIndustry.industry_name}</span>
+                    </Link>
+                  )}
+                  {nextIndustry && (
+                    <Link to={`/industry-reports/${nextIndustry.industry_name}`} className="flex flex-col items-end max-w-[45%] text-[#185897] no-underline text-right">
+                      <span className="text-xs text-gray-500 mb-1">下一篇 →</span>
+                      <span className="text-sm font-semibold line-clamp-2">{nextIndustry.industry_name}</span>
+                    </Link>
+                  )}
+                </div>
               </article>
             ) : (
               <div>找不到報告。</div>
@@ -271,7 +302,7 @@ const IndustryReportPage = () => {
 
       {/* Overlay */}
       {(isLeftSidebarOpen || isRightSidebarOpen) && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-[1000] lg:hidden"
           onClick={() => {
             setIsLeftSidebarOpen(false);

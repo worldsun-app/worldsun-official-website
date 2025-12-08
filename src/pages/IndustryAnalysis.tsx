@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Header from "@/components/layout/Header";
@@ -55,6 +55,10 @@ const IndustryAnalysis = () => {
   const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number; direction: 'up' | 'down' } | null>(null);
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const isLongPress = useRef(false);
+  const isScrolling = useRef(false);
 
   const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -141,6 +145,55 @@ const IndustryAnalysis = () => {
     return { left: x + 15, top: top, transform: transform, position: 'fixed' };
   }, [tooltipPosition]);
 
+  const handleTouchStart = (industry: IndustryData, e: React.TouchEvent) => {
+    isLongPress.current = false;
+    isScrolling.current = false;
+    const touch = e.touches[0];
+    const { clientX, clientY } = touch;
+
+    longPressTimer.current = setTimeout(() => {
+      // Only trigger long press if we haven't started scrolling
+      if (!isScrolling.current) {
+        isLongPress.current = true;
+        const direction = clientY > window.innerHeight / 2 ? 'up' : 'down';
+        setHoveredIndustrySummary(industry.preview_summary);
+        setTooltipPosition({ x: clientX, y: clientY, direction });
+      }
+    }, 500);
+  };
+
+  const handleTouchEnd = (industry: IndustryData) => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+    }
+
+    // Only handle interactions if we weren't scrolling
+    if (!isScrolling.current) {
+      if (isLongPress.current) {
+        // Was a long press, just hide tooltip
+        setHoveredIndustrySummary(null);
+        setTooltipPosition(null);
+      } else {
+        // Was a tap (and not scrolling), navigate
+        handleRowClick(industry);
+      }
+    } else {
+      // If we were scrolling, just ensure tooltip is hidden just in case
+      setHoveredIndustrySummary(null);
+      setTooltipPosition(null);
+    }
+    isLongPress.current = false;
+    isScrolling.current = false;
+  };
+
+  const handleTouchMove = () => {
+    // If user moves finger significantly, it's a scroll or swipe
+    isScrolling.current = true;
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
@@ -176,7 +229,7 @@ const IndustryAnalysis = () => {
     <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
       <Header />
       <div className="max-w-[1400px] mx-auto px-6">
-        <h1 className="font-['Noto_Sans'] text-[2.5rem] font-semibold text-left mb-2">產業週報</h1>
+        <h1 className="font-['Noto_Sans'] text-3xl md:text-[2.5rem] font-semibold text-left mb-2">產業週報</h1>
         <hr className="border-0 h-px bg-[#E0E0E0] mt-2 mb-4" />
 
         {sp500Data && sp500Data.etf_roi && (
@@ -198,41 +251,97 @@ const IndustryAnalysis = () => {
 
         <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] p-6 border border-[#E0E0E0]">
           <div className="mb-6 cursor-pointer" onClick={() => setIsCollapsed(!isCollapsed)}>
-            <h2 className="text-[1.8rem] font-semibold">產業列表 {isCollapsed ? '▶' : '▼'}</h2>
+            <h2 className="text-2xl md:text-[1.8rem] font-semibold">產業列表 {isCollapsed ? '▶' : '▼'}</h2>
           </div>
           {!isCollapsed && (
-            <div className="overflow-x-auto">
-              <table className="[border-collapse:separate] border-spacing-0 w-full table-auto min-w-max">
-                <thead>
-                  <tr>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('industry_name'); }}>Industry{getSortIndicator('industry_name')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1D'); }}>1D{getSortIndicator('1D')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('5D'); }}>5D{getSortIndicator('5D')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1M'); }}>1M{getSortIndicator('1M')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('3M'); }}>3M{getSortIndicator('3M')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('6M'); }}>6M{getSortIndicator('6M')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1Y'); }}>1Y{getSortIndicator('1Y')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('pe_today'); }}>PE Range (1Y){getSortIndicator('pe_today')}</th>
-                    <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('market_breadth_200d'); }}>Market<br />Breadth (200d){getSortIndicator('market_breadth_200d')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedIndustryData.map(industry => (
-                    <tr key={industry.industry_name} className="transition-all duration-200 ease-in-out even:bg-[rgba(0,0,0,0.02)] hover:bg-[#F8F8F8] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(0,0,0,0.08)] cursor-pointer" onClick={() => handleRowClick(industry)}>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}>{industry.industry_name}</td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1D']} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['5D']} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1M']} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['3M']} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['6M']} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1Y']} /></td>
-                      <td className="p-6 align-middle text-left"><PeRatioBar pe_today={industry.etf_roi?.pe_today} pe_low_1y={industry.pe_low_1y} pe_high_1y={industry.pe_high_1y} /></td>
-                      <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.market_breadth_200d} hasColor={false} isPercentage={false} decimalPlaces={1} /></td>
+            <>
+              <div className="hidden md:block overflow-x-auto">
+                <table className="[border-collapse:separate] border-spacing-0 w-full table-auto min-w-max">
+                  <thead>
+                    <tr>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('industry_name'); }}>Industry{getSortIndicator('industry_name')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1D'); }}>1D{getSortIndicator('1D')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('5D'); }}>5D{getSortIndicator('5D')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1M'); }}>1M{getSortIndicator('1M')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('3M'); }}>3M{getSortIndicator('3M')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('6M'); }}>6M{getSortIndicator('6M')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('1Y'); }}>1Y{getSortIndicator('1Y')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('pe_today'); }}>PE Range (1Y){getSortIndicator('pe_today')}</th>
+                      <th className="bg-[#F2F2F2] border-b-2 border-[#E0E0E0] font-semibold text-left p-4 align-middle hover:bg-[#E0E0E0] cursor-pointer" onClick={(e) => { e.stopPropagation(); requestSort('market_breadth_200d'); }}>Market<br />Breadth (200d){getSortIndicator('market_breadth_200d')}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {sortedIndustryData.map(industry => (
+                      <tr key={industry.industry_name} className="transition-all duration-200 ease-in-out even:bg-[rgba(0,0,0,0.02)] hover:bg-[#F8F8F8] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(0,0,0,0.08)] cursor-pointer" onClick={() => handleRowClick(industry)}>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}>{industry.industry_name}</td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1D']} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['5D']} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1M']} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['3M']} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['6M']} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.etf_roi?.['1Y']} /></td>
+                        <td className="p-6 align-middle text-left"><PeRatioBar pe_today={industry.etf_roi?.pe_today} pe_low_1y={industry.pe_low_1y} pe_high_1y={industry.pe_high_1y} /></td>
+                        <td className="p-6 align-middle" onMouseEnter={(e) => handleMouseEnter(industry, e)} onMouseLeave={handleMouseLeave}><RoiCell value={industry.market_breadth_200d} hasColor={false} isPercentage={false} decimalPlaces={1} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4">
+                {sortedIndustryData.map(industry => (
+                  <div
+                    key={industry.industry_name}
+                    className="bg-white rounded-lg border border-[#E0E0E0] p-4 shadow-sm active:scale-[0.98] transition-all select-none"
+                    onTouchStart={(e) => handleTouchStart(industry, e)}
+                    onTouchEnd={() => handleTouchEnd(industry)}
+                    onTouchMove={handleTouchMove}
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
+                    <div className="flex justify-between items-center mb-3">
+                      <h3 className="text-xl font-bold text-[#1C1D1D]">{industry.industry_name}</h3>
+                      <span className="text-sm text-gray-500">▶</span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3 text-sm mb-3">
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">1D</span>
+                        <RoiCell value={industry.etf_roi?.['1D']} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">1W</span>
+                        <RoiCell value={industry.etf_roi?.['5D']} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">1M</span>
+                        <RoiCell value={industry.etf_roi?.['1M']} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3 text-sm border-t border-gray-100 pt-3">
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">3M</span>
+                        <RoiCell value={industry.etf_roi?.['3M']} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">6M</span>
+                        <RoiCell value={industry.etf_roi?.['6M']} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-xs">1Y</span>
+                        <RoiCell value={industry.etf_roi?.['1Y']} />
+                      </div>
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+                      <span className="text-xs text-gray-500">Market Breadth:</span>
+                      <RoiCell value={industry.market_breadth_200d} hasColor={false} isPercentage={false} decimalPlaces={1} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

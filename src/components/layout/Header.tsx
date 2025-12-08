@@ -92,12 +92,12 @@ const Header = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string, external?: boolean) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
+
     if (external) {
       window.open(href, '_blank', 'noopener,noreferrer');
       return;
     }
-    
+
     if (href.startsWith('/#')) {
       const targetId = href.substring(2);
       if (location.pathname === '/') {
@@ -111,23 +111,22 @@ const Header = () => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
-        isScrolled 
-          ? "bg-background/95 backdrop-blur-lg shadow-card" 
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${isScrolled
+          ? "bg-background/95 backdrop-blur-lg shadow-card"
           : "bg-black/20 backdrop-blur-sm"
-      }`}
+        }`}
     >
-      <div className="container mx-auto px-6 py-1">
+      <div className="container mx-auto px-4 lg:px-6 py-1">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Link to="/" className="flex items-center">
-              <img src={logo} alt="沃勝家族辦公室 Logo" className="w-16 h-15" />
+              <img src={logo} alt="沃勝家族辦公室 Logo" className="w-12 lg:w-16 h-auto" />
               <div>
-                <h1 className={`text-xl font-bold font-playfair ${isScrolled ? 'text-foreground' : 'text-white'}`}>
+                <h1 className={`text-lg lg:text-xl font-bold font-playfair whitespace-nowrap ${isScrolled ? 'text-foreground' : 'text-white'}`}>
                   沃勝家族辦公室
                 </h1>
-                <p className={`text-xs ${isScrolled ? 'text-muted-foreground' : 'text-white/70'}`}>跨世代財富傳承</p>
+                <p className={`text-[10px] lg:text-xs ${isScrolled ? 'text-muted-foreground' : 'text-white/70'}`}>跨世代財富傳承</p>
               </div>
             </Link>
           </div>
@@ -176,8 +175,8 @@ const Header = () => {
 
           {/* CTA Button Only */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button 
-              variant="default" 
+            <Button
+              variant="default"
               className="bg-primary text-white hover:bg-primary/90 border-0 hover:shadow-elegant transition-smooth"
               onClick={(e) => handleNavClick(e, '/#contact')}
             >
@@ -207,9 +206,9 @@ const Header = () => {
               className={`absolute top-full right-0 mt-2 w-72 lg:hidden rounded-xl border ${(!isScrolled && location.pathname === '/') ? 'bg-black/50 border-white/20' : 'bg-background/95 border-border'} backdrop-blur-lg shadow-xl`}
             >
               <div className="flex flex-col p-4 space-y-2">
-                {navItems.flatMap((item) => 
-                  item.isDropdown && item.subItems 
-                  ? [
+                {navItems.flatMap((item) =>
+                  item.isDropdown && item.subItems
+                    ? [
                       <span key={`${item.name}-title`} className={`${(!isScrolled && location.pathname === '/') ? 'text-white/70' : 'text-muted-foreground'} font-semibold px-2 pt-2 text-sm`}>{item.name}</span>,
                       ...item.subItems.map(subItem => (
                         <Link
@@ -222,20 +221,20 @@ const Header = () => {
                         </Link>
                       ))
                     ]
-                  : (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`${(!isScrolled && location.pathname === '/') ? 'text-white/90' : 'text-foreground'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
-                      onClick={(e) => handleNavClick(e, item.href, item.external)}
-                    >
-                      {item.name}
-                    </Link>
-                  )
+                    : (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`${(!isScrolled && location.pathname === '/') ? 'text-white/90' : 'text-foreground'} hover:bg-primary/90 hover:text-white rounded-md transition-colors py-2 px-3 text-sm`}
+                        onClick={(e) => handleNavClick(e, item.href, item.external)}
+                      >
+                        {item.name}
+                      </Link>
+                    )
                 )}
                 <div className="border-t w-full my-2" style={{ borderColor: (!isScrolled && location.pathname === '/') ? 'rgba(255,255,255,0.2)' : 'hsl(var(--border))' }}></div>
-                <Button 
-                  variant="default" 
+                <Button
+                  variant="default"
                   className="bg-primary text-white hover:bg-primary/90 border-0 w-full mt-2"
                   onClick={(e) => handleNavClick(e, '/#contact')}
                 >
