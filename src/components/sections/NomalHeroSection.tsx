@@ -61,17 +61,17 @@ const NomalHeroSection = () => {
             <source src={videoSrc} type="video/mp4" />
           </motion.video>
         ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentImageIndex}
-              style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
-              className="absolute inset-0 w-full h-full bg-cover bg-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            />
-          </AnimatePresence>
+          /* Static Image Stack with Opacity Transition */
+          <div className="absolute inset-0 w-full h-full">
+            {images.map((img, index) => (
+              <div
+                key={index}
+                style={{ backgroundImage: `url(${img})` }}
+                className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+              />
+            ))}
+          </div>
         )}
       </div>
 
@@ -101,7 +101,7 @@ const NomalHeroSection = () => {
 
       {/* Location Markers */}
       <div className="absolute bottom-10 md:bottom-16 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex items-center space-x-4 md:space-x-6 text-white/70 text-xs md:text-sm font-light tracking-wider">
+        <div className="flex items-center space-x-4 md:space-x-6 text-white/70 text-xs md:text-sm font-light tracking-wider whitespace-nowrap">
           <span>台北</span>
           <span className="w-1 h-1 bg-white/50 rounded-full"></span>
           <span>香港</span>
@@ -113,28 +113,30 @@ const NomalHeroSection = () => {
       </div>
 
       {/* Slideshow Pagination Dots */}
-      {videoHasEnded && (
-        <div
-          className="absolute bottom-16 right-8 z-20 flex flex-col space-y-2"
-          onMouseLeave={startAutoplay} // Resume autoplay when mouse leaves the container
-        >
-          {images.map((_, index) => (
-            <div
-              key={index}
-              className="w-3 h-3 rounded-full cursor-pointer transition-all duration-300"
-              style={{
-                backgroundColor: currentImageIndex === index ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                transform: currentImageIndex === index ? 'scale(1.2)' : 'scale(1)',
-              }}
-              onMouseEnter={() => {
-                stopAutoplay();
-                setCurrentImageIndex(index);
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+      {
+        videoHasEnded && (
+          <div
+            className="absolute bottom-16 right-8 z-20 flex flex-col space-y-2"
+            onMouseLeave={startAutoplay} // Resume autoplay when mouse leaves the container
+          >
+            {images.map((_, index) => (
+              <div
+                key={index}
+                className="w-3 h-3 rounded-full cursor-pointer transition-all duration-300"
+                style={{
+                  backgroundColor: currentImageIndex === index ? 'white' : 'rgba(255, 255, 255, 0.5)',
+                  transform: currentImageIndex === index ? 'scale(1.2)' : 'scale(1)',
+                }}
+                onMouseEnter={() => {
+                  stopAutoplay();
+                  setCurrentImageIndex(index);
+                }}
+              />
+            ))}
+          </div>
+        )
+      }
+    </section >
   );
 };
 
