@@ -17,25 +17,25 @@ const ServicesSection = () => {
     {
       icon: PieChart,
       title: "資產配置",
-      description: "科學配置，穩健增值",
+      description: "不追求一時爆發，只求長久的穩健",
       features: ["全球配置", "風險控制", "績效追蹤"]
     },
     {
       icon: TrendingUp,
       title: "股權投資",
-      description: "精選機會，長期增長",
+      description: "與時代的領跑者共同成長",
       features: ["盡職調查", "投後管理", "退出規劃"]
     },
     {
       icon: Building,
       title: "地產投資",
-      description: "優質物業，穩定收益",
+      description: "配置核心地段，留存永恆價值",
       features: ["核心地段", "商業地產", "REITs"]
     },
     {
       icon: Banknote,
       title: "另類投資",
-      description: "多元標的，分散配置",
+      description: "在傳統之外，挖掘更多可能性",
       features: ["藝術收藏", "貴金屬", "結構商品"]
     }
   ];
@@ -44,25 +44,25 @@ const ServicesSection = () => {
     {
       icon: Heart,
       title: "治理規劃",
-      description: "建立憲章，傳承價值",
+      description: "建立共識，讓家族精神有規可循",
       features: ["憲章制定", "架構設計", "決策機制"]
     },
     {
       icon: Shield,
       title: "財富傳承",
-      description: "信託工具，安全傳承",
+      description: "透過精準工具，確保財富平安交棒",
       features: ["信託設計", "保險規劃", "稅務優化"]
     },
     {
       icon: Users,
       title: "家族教育",
-      description: "培養下代，承擔責任",
+      description: "培育下一代，承擔榮耀與責任",
       features: ["財商教育", "接班培養", "活動規劃"]
     },
     {
       icon: FileCheck,
       title: "法律架構",
-      description: "完善保護，合規安全",
+      description: "法律與規章，是家族最堅實的護盾",
       features: ["實體設立", "合規諮詢", "風險防護"]
     }
   ];
@@ -116,8 +116,11 @@ const ServicesSection = () => {
             <div className="w-8 h-0.5 bg-primary"></div>
           </div>
           <h2 className="text-4xl lg:text-6xl font-bold font-playfair mb-6 text-foreground">
-            專業服務
+            專業服務 / 投資管理
           </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            穿越週期的，穩健遠見
+          </p>
         </div>
 
         {/* Investment Services */}
@@ -175,7 +178,7 @@ const ServicesSection = () => {
                   }
                 }}
               >
-                開始諮詢
+                預約您的家族對話
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>

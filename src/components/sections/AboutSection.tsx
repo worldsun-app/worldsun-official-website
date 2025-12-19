@@ -28,17 +28,17 @@ const AboutSection = () => {
     {
       icon: Heart,
       title: "傳承使命",
-      description: "致力於幫助家族實現財富與價值觀的代代相傳，建立永續經營的家族基業"
+      description: "讓家族精神，世代如初"
     },
     {
       icon: Trophy,
       title: "專業卓越",
-      description: "15年以上的豐富經驗，為20+家族提供全方位的財富管理與傳承服務"
+      description: "以專業，換您的安心託付"
     },
     {
       icon: Globe,
       title: "國際視野",
-      description: "結合本土深耕與國際標準，為客戶創造跨境財富管理的最佳解決方案"
+      description: "立足本土，佈局全球"
     }
   ];
 
@@ -64,11 +64,14 @@ const AboutSection = () => {
             關於沃勝
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold font-playfair text-foreground mb-6">
-            專業家族辦公室
-            <span className="block text-primary">值得信賴的夥伴</span>
+            我們不只是您的財務顧問
+            <span className="block text-primary">更是家族的守門人</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            沃勝家族辦公室成立於2016年，專注於為高淨值家族提供全方位的財富管理與傳承服務。我們深信，真正的財富不僅是金錢，更是世代相傳的價值觀與智慧。
+            沃勝家族辦公室成立於2016年，專注為高淨值家族提供全方位的財富管理與傳承服務
+          </p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            我們深信，真正的財富不僅是金錢，更是世代相傳的價值觀與智慧
           </p>
         </div>
 
@@ -83,22 +86,22 @@ const AboutSection = () => {
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">客製化服務</h4>
-                    <p className="text-muted-foreground">針對每個家族的獨特需求，量身打造專屬的財富管理方案</p>
+                    <h4 className="font-semibold text-foreground mb-1">懂您所想</h4>
+                    <p className="text-muted-foreground">每一個家族都是獨一無二的，方案為您們量身打造</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">長期夥伴關係</h4>
-                    <p className="text-muted-foreground">與客戶建立長期信任關係，陪伴家族走過每個重要時刻</p>
+                    <h4 className="font-semibold text-foreground mb-1">並肩同行</h4>
+                    <p className="text-muted-foreground">我們不看短期利益，只看您的家族十年、五十年後的樣子</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">專業團隊</h4>
-                    <p className="text-muted-foreground">匯聚金融、法律、稅務等各領域專家，提供全方位專業服務</p>
+                    <h4 className="font-semibold text-foreground mb-1">智囊守護</h4>
+                    <p className="text-muted-foreground"> 集結法律、財務、稅務專家，做您最強大的後援</p>
                   </div>
                 </div>
               </div>
@@ -135,10 +138,13 @@ const AboutSection = () => {
         <div className="space-y-12">
           <div className="text-center animate-fade-in">
             <h3 className="text-3xl lg:text-4xl font-bold font-playfair text-foreground mb-4">
-              核心價值
+              核心價值 守護家族的長青精神
             </h3>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              我們的核心價值指引著每一項服務，確保為客戶創造最大價值
+              我們的核心價值指引著每一項服務...
+            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              我們深知每一份財富背後，都是一代人的奮鬥與對家人的愛
             </p>
           </div>
 
