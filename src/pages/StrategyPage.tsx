@@ -37,9 +37,9 @@ interface StrategyPerformanceData {
   heatmap_chart: string;
 }
 
-import { getApiUrl } from "@/lib/config";
+import { getStrategyApiUrl } from "@/lib/config";
 
-const STRATEGY_API_URL = getApiUrl();
+const STRATEGY_API_URL = getStrategyApiUrl();
 
 const usePlotlyResize = (ref: React.RefObject<HTMLDivElement>) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });

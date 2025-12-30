@@ -16,6 +16,9 @@ export const config = {
     // Backend API URL. Priority: VITE_API_BASE_URL -> VITE_STRATEGY_API_URL -> /api (proxy)
     apiBaseUrl: getEnvVar('VITE_API_BASE_URL', getEnvVar('VITE_STRATEGY_API_URL', '')),
 
+    // Strategy API URL. Priority: VITE_STRATEGY_API_URL -> VITE_API_BASE_URL
+    strategyApiUrl: getEnvVar('VITE_STRATEGY_API_URL', getEnvVar('VITE_API_BASE_URL', '')),
+
     // Ghost Blog Configuration
     ghost: {
         apiUrl: getEnvVar('VITE_GHOST_API_URL'),
@@ -32,7 +35,13 @@ export const getApiUrl = () => {
     if (url.endsWith('/')) {
         url = url.slice(0, -1);
     }
-    // If url is empty, we might want to default to '' (relative path if proxy is set up correctly in prod for same-origin)
-    // But typically in prod we need full URL.
+    return url;
+};
+
+export const getStrategyApiUrl = () => {
+    let url = config.strategyApiUrl;
+    if (url.endsWith('/')) {
+        url = url.slice(0, -1);
+    }
     return url;
 };
