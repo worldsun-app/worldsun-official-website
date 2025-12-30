@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { ParallaxController } from "@/components/animation/ParallaxController";
 import { motion, AnimatePresence, Transition } from "framer-motion";
+import { HelmetProvider } from "react-helmet-async";
 
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -64,7 +65,6 @@ const AnimatedRoutes = () => {
             <IndustryReportPage />
           </motion.div>
         } />
-        {/* 新增策略頁面的路由 */}
         <Route path="/strategies/:strategyName" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <StrategyPage />
@@ -85,13 +85,7 @@ const AnimatedRoutes = () => {
             <CopyrightNotice />
           </motion.div>
         } />
-        <Route path="/strategies/:strategyName" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <StrategyPage />
-          </motion.div>
-        } />
-        {/* Member functionality hidden */}
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
         <Route path="*" element={
           <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
             <NotFound />
@@ -117,27 +111,26 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          {/* 動畫背景層 - 獨立添加，不影響現有結構 */}
-          <div className={`ws-animated-background ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
-          
-          {/* 浮動幾何元素 - 第二階段 */}
-          <div className={`ws-floating-geometry circle ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
-          <div className={`ws-floating-geometry triangle ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
-          <div className={`ws-floating-geometry square ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
-          <div className={`ws-floating-geometry hexagon ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
-          
-          {/* 視差效果控制器 - 第三階段 */}
-          <ParallaxController enabled={animationEnabled} />
+      <HelmetProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <div className={`ws-animated-background ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
 
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AnimatedRoutes />
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
+            <div className={`ws-floating-geometry circle ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
+            <div className={`ws-floating-geometry triangle ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
+            <div className={`ws-floating-geometry square ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
+            <div className={`ws-floating-geometry hexagon ${animationEnabled ? 'ws-animation-enabled' : 'ws-animation-disabled'}`}></div>
+
+            <ParallaxController enabled={animationEnabled} />
+
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AnimatedRoutes />
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 };

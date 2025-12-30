@@ -6,6 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Progress } from "@/components/ui/progress";
 import { fetchStream } from "@/lib/stream";
+import SEO from "@/components/SEO";
+import { getApiUrl } from "@/lib/config";
 
 interface Stock {
   symbol: string;
@@ -29,7 +31,7 @@ interface ReportData {
   preview_summary: string;
 }
 
-// --- Helper 函式 ---
+
 const formatMarketCap = (cap: number) => {
   if (cap >= 1_000_000_000_000) return `${(cap / 1_000_000_000_000).toFixed(2)}T`;
   if (cap >= 1_000_000_000) return `${(cap / 1_000_000_000).toFixed(2)}B`;
@@ -46,7 +48,7 @@ const IndustryReportPage = () => {
   const [reportProgress, setReportProgress] = useState(0);
   const [industriesProgress, setIndustriesProgress] = useState(0);
 
-  const backendUrl = import.meta.env.VITE_API_BASE_URL;
+  const backendUrl = getApiUrl();
 
   const {
     data: report,
@@ -221,6 +223,10 @@ const IndustryReportPage = () => {
 
   return (
     <div className="bg-[#F2F2F2] pt-20">
+      <SEO
+        title={report ? `${industryName} 產業報告` : `${industryName}`}
+        description={report ? report.preview_summary : `查看 ${industryName} 的最新產業分析報告與重點個股資訊。`}
+      />
       <Header />
       <div style={{ width: `${scrollProgress}%` }} className="fixed top-[80px] left-0 h-1 bg-gradient-to-r from-[#185897] to-[#2287BC] z-[1000] transition-width duration-100 ease-out" />
 

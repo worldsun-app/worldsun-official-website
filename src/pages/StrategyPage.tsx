@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { fetchStream } from "@/lib/stream";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SEO from "@/components/SEO";
 
 interface RiskFrameworkItem {
   icon: string;
@@ -36,7 +37,9 @@ interface StrategyPerformanceData {
   heatmap_chart: string;
 }
 
-const STRATEGY_API_URL = import.meta.env.VITE_STRATEGY_API_URL;
+import { getApiUrl } from "@/lib/config";
+
+const STRATEGY_API_URL = getApiUrl();
 
 const usePlotlyResize = (ref: React.RefObject<HTMLDivElement>) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -319,6 +322,10 @@ const StrategyPage = () => {
 
   return (
     <>
+      <SEO
+        title={formattedTitle}
+        description={`探索 ${formattedTitle} 的投資策略、績效分析與風險管理框架。World Sun Global Family Office 為您提供深入的基金資訊。`}
+      />
       <Header />
       <main className="flex-grow bg-muted/20 pt-20 pb-12">
         <div className="container mx-auto p-4">

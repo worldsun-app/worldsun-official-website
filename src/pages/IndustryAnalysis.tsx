@@ -5,10 +5,11 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Progress } from "@/components/ui/progress";
 import { fetchStream } from "@/lib/stream";
+import SEO from "@/components/SEO";
+import { getApiUrl } from "@/lib/config";
 
 import PeRatioBar from "@/components/PeRatioBar";
 
-// --- 介面定義 (與原始檔案相同) ---
 interface EtfRoi {
   '1D': number | null;
   '5D': number | null;
@@ -35,7 +36,7 @@ interface SortConfig {
   direction: 'ascending' | 'descending';
 }
 
-// --- Tailwind 版本的元件 ---
+
 
 const RoiCell: React.FC<{ value: number | null | undefined, isPercentage?: boolean, hasColor?: boolean, decimalPlaces?: number }> = ({ value, isPercentage = true, hasColor = true, decimalPlaces = 2 }) => {
   if (value === null || value === undefined) {
@@ -60,7 +61,7 @@ const IndustryAnalysis = () => {
   const isLongPress = useRef(false);
   const isScrolling = useRef(false);
 
-  const backendUrl = import.meta.env.VITE_API_BASE_URL;
+  const backendUrl = getApiUrl();
 
   const { data: allData, isLoading, error } = useQuery<IndustryData[]>({
     queryKey: ['industryData'],
@@ -227,6 +228,10 @@ const IndustryAnalysis = () => {
 
   return (
     <div className="bg-[#F2F2F2] text-[#1C1D1D] min-h-screen pt-20">
+      <SEO
+        title="產業週報"
+        description="瀏覽最新的產業數據分析，涵蓋各大板塊的 ETF 投資報酬率、本益比區間與市場寬度分析。"
+      />
       <Header />
       <div className="max-w-[1400px] mx-auto px-6">
         <h1 className="font-['Noto_Sans'] text-3xl md:text-[2.5rem] font-semibold text-left mb-2">產業週報</h1>

@@ -5,9 +5,9 @@ import Footer from "@/components/layout/Footer";
 import NomalHeroSection from "@/components/sections/NomalHeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import ServicesSection from "@/components/sections/ServicesSection";
-// import InsightsSection from "@/components/sections/InsightsSection";
 import FeaturedInsights from "@/components/sections/FeaturedInsights";
 import ContactSection from "@/components/sections/ContactSection";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   const location = useLocation();
@@ -23,13 +23,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="首頁"
+        description="World Sun Global Family Office - 您的全球資產配置專家，提供專業的投資策略與產業分析報告。"
+      />
       <Header />
       <main>
         <NomalHeroSection />
         <AboutSection />
         <ServicesSection />
         <FeaturedInsights />
-        {/* <InsightsSection /> */}
         <ContactSection />
       </main>
       <Footer />
