@@ -24,8 +24,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="首頁"
-        description="World Sun Global Family Office - 您的全球資產配置專家，提供專業的投資策略與產業分析報告。"
+        title="沃勝家族辦公室" 
+        name="跨世代財富傳承"
+        description="沃勝家族辦公室 - 專業投資規劃與家族財富管理服務，助您實現財富增長與永續傳承。"
       />
       <Header />
       <main>
