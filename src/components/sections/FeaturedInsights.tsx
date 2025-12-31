@@ -116,7 +116,7 @@ const FeaturedInsights = () => {
                                 size="lg"
                                 className="bg-primary text-white hover:bg-primary/90 border-0 shadow-elegant group"
                             >
-                                <a href="https://www.wsgfo.com/" target="_blank">
+                                <a href="https://insights.wsgfo.com/" target="_blank">
                                     查看所有文章
                                     <ArrowRight className="lucide lucide-arrow-right ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </a>

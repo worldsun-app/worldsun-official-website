@@ -85,7 +85,7 @@ const Header = () => {
         { name: "SMART 500", href: "/strategies/SMART-500", description: "基於 S&P 500 的智慧型投資組合。" },
       ],
     },
-    { name: "智慧洞察", href: "https://www.wsgfo.com", external: true },
+    { name: "智慧洞察", href: "https://insights.wsgfo.com/", external: true },
     { name: "合作夥伴", href: "https://wsappgd.zeabur.app/login", external: true },
   ];
 
