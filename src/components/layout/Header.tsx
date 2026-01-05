@@ -86,7 +86,7 @@ const Header = () => {
       ],
     },
     { name: "智慧洞察", href: "https://insights.wsgfo.com/", external: true },
-    { name: "合作夥伴", href: "https://wsappgd.zeabur.app/login", external: true },
+    { name: "合作夥伴", href: "https://partner-info.wsgfo.com/", external: true },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string, external?: boolean) => {
@@ -113,8 +113,8 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${isScrolled
-          ? "bg-background/95 backdrop-blur-lg shadow-card"
-          : "bg-black/20 backdrop-blur-sm"
+        ? "bg-background/95 backdrop-blur-lg shadow-card"
+        : "bg-black/20 backdrop-blur-sm"
         }`}
     >
       <div className="container mx-auto px-4 lg:px-6 py-1">
