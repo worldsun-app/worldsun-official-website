@@ -2,27 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://wsgfo.com/</loc>
+    <loc>https://worldsun-official-website.zeabur.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://wsgfo.com/industry-analysis</loc>
+    <loc>https://worldsun-official-website.zeabur.app/industry-analysis</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://wsgfo.com/privacy-policy</loc>
+    <loc>https://worldsun-official-website.zeabur.app/strategies/All-Weather</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://wsgfo.com/terms-of-service</loc>
+    <loc>https://worldsun-official-website.zeabur.app/strategies/SMART-500</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://wsgfo.com/copyright-notice</loc>
+    <loc>https://worldsun-official-website.zeabur.app/privacy-policy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://worldsun-official-website.zeabur.app/terms-of-service</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://worldsun-official-website.zeabur.app/copyright-notice</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

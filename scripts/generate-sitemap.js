@@ -11,6 +11,8 @@ const DOMAIN = 'https://worldsun-official-website.zeabur.app';
 const staticRoutes = [
     '/',
     '/industry-analysis',
+    '/strategies/All-Weather',
+    '/strategies/SMART-500',
     '/privacy-policy',
     '/terms-of-service',
     '/copyright-notice',
