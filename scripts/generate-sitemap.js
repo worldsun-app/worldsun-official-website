@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Domain - Change this to your actual production domain
-const DOMAIN = 'https://worldsun-official-website.zeabur.app';
+const DOMAIN = 'https://www.wsgfo.com';
 
 const staticRoutes = [
     '/',
