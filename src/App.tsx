@@ -4,23 +4,24 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
-import { useState, useEffect } from "react";
-import { Switch } from "@/components/ui/switch";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { ParallaxController } from "@/components/animation/ParallaxController";
 import { motion, AnimatePresence, Transition } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
+import PageLoader from "@/components/ui/PageLoader";
 
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Member from "./pages/Member";
-import AdminPanel from "./pages/AdminPanel";
-import NotFound from "./pages/NotFound";
-import IndustryAnalysis from "./pages/IndustryAnalysis";
-import IndustryReportPage from "./pages/IndustryReportPage";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import CopyrightNotice from "./pages/CopyrightNotice";
-import StrategyPage from "./pages/StrategyPage";
+// Lazy load pages
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Member = lazy(() => import("./pages/Member"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const IndustryAnalysis = lazy(() => import("./pages/IndustryAnalysis"));
+const IndustryReportPage = lazy(() => import("./pages/IndustryReportPage"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const CopyrightNotice = lazy(() => import("./pages/CopyrightNotice"));
+const StrategyPage = lazy(() => import("./pages/StrategyPage"));
 
 const queryClient = new QueryClient();
 
@@ -49,49 +50,51 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <Index />
-          </motion.div>
-        } />
-        <Route path="/industry-analysis" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <IndustryAnalysis />
-          </motion.div>
-        } />
-        <Route path="/industry-reports/:industryName" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <IndustryReportPage />
-          </motion.div>
-        } />
-        <Route path="/strategies/:strategyName" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <StrategyPage />
-          </motion.div>
-        } />
-        <Route path="/privacy-policy" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <PrivacyPolicy />
-          </motion.div>
-        } />
-        <Route path="/terms-of-service" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <TermsOfService />
-          </motion.div>
-        } />
-        <Route path="/copyright-notice" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <CopyrightNotice />
-          </motion.div>
-        } />
+      <Suspense fallback={<PageLoader />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <Index />
+            </motion.div>
+          } />
+          <Route path="/industry-analysis" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <IndustryAnalysis />
+            </motion.div>
+          } />
+          <Route path="/industry-reports/:industryName" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <IndustryReportPage />
+            </motion.div>
+          } />
+          <Route path="/strategies/:strategyName" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <StrategyPage />
+            </motion.div>
+          } />
+          <Route path="/privacy-policy" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <PrivacyPolicy />
+            </motion.div>
+          } />
+          <Route path="/terms-of-service" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <TermsOfService />
+            </motion.div>
+          } />
+          <Route path="/copyright-notice" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <CopyrightNotice />
+            </motion.div>
+          } />
 
-        <Route path="*" element={
-          <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
-            <NotFound />
-          </motion.div>
-        } />
-      </Routes>
+          <Route path="*" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <NotFound />
+            </motion.div>
+          } />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
