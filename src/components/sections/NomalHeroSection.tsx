@@ -5,9 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import videoSrc from "@/assets/taipei101.mp4";
 import imgMorning from "@/assets/taipei-101-early morning.png";
 import imgMoon from "@/assets/taipei-101-moon.jpg";
-import imgNight from "@/assets/taipei-101-night.png";
 
-const images = [imgMorning, imgMoon, imgNight];
+const images = [imgMorning, imgMoon];
 
 const NomalHeroSection = () => {
   const [videoHasEnded, setVideoHasEnded] = useState(false);

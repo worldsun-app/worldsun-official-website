@@ -22,6 +22,8 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const CopyrightNotice = lazy(() => import("./pages/CopyrightNotice"));
 const StrategyPage = lazy(() => import("./pages/StrategyPage"));
+const NewsPage = lazy(() => import("./pages/NewsPage"));
+const NewsDetailPage = lazy(() => import("./pages/NewsDetailPage"));
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,16 @@ const AnimatedRoutes = () => {
           <Route path="/strategies/:strategyName" element={
             <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
               <StrategyPage />
+            </motion.div>
+          } />
+          <Route path="/news" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <NewsPage />
+            </motion.div>
+          } />
+          <Route path="/news/:id" element={
+            <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+              <NewsDetailPage />
             </motion.div>
           } />
           <Route path="/privacy-policy" element={

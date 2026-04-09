@@ -76,6 +76,7 @@ const Header = () => {
     { name: "首頁", href: "/" },
     { name: "關於我們", href: "/#about" },
     { name: "服務項目", href: "/#services" },
+    { name: "相關報導", href: "/news" },
     { name: "產業週報", href: "/industry-analysis" },
     {
       name: "訂閱策略",
