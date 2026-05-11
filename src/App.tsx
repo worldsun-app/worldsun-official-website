@@ -9,6 +9,7 @@ import { ParallaxController } from "@/components/animation/ParallaxController";
 import { motion, AnimatePresence, Transition } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import PageLoader from "@/components/ui/PageLoader";
+import FraudAlertModal from "@/components/FraudAlertModal";
 
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
@@ -140,6 +141,7 @@ const App = () => {
 
             <Toaster />
             <Sonner />
+            <FraudAlertModal />
             <BrowserRouter>
               <AnimatedRoutes />
             </BrowserRouter>
