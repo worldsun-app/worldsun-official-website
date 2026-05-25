@@ -88,6 +88,7 @@ const Header = () => {
     },
     { name: "智慧洞察", href: "https://insights.wsgfo.com/", external: true },
     { name: "合作夥伴", href: "https://partner-info.wsgfo.com/", external: true },
+    { name: "業務平台", href: "https://sales-manage-flow.wsgfo.com", external: true },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string, external?: boolean) => {
