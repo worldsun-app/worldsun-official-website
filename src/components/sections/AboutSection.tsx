@@ -43,7 +43,7 @@ const AboutSection = () => {
   ];
 
   const achievements = [
-    { number: "30+", label: "億元管理資產", icon: TrendingUp },
+    { number: "50+", label: "億元管理資產", icon: TrendingUp },
     { number: "20+", label: "服務家族", icon: Users },
     { number: "15+", label: "年專業經驗", icon: Trophy },
     { number: "98%", label: "客戶滿意度", icon: CheckCircle }
@@ -152,7 +152,7 @@ const AboutSection = () => {
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <Card 
+                <Card
                   key={index}
                   className="bg-card/80 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant transition-smooth group hover:border-primary/30"
                 >
@@ -183,8 +183,8 @@ const AboutSection = () => {
               讓我們的專業團隊為您量身打造專屬的家族財富管理方案
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-primary text-white hover:bg-primary/90 transition-smooth shadow-elegant"
                 onClick={handleConsultationClick}
               >
