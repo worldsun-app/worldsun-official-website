@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 
 import {
   MapPin,
-  Phone,
   Mail,
   Clock,
   Send,
@@ -34,12 +33,6 @@ const ContactSection = () => {
       title: "辦公地址",
       content: "台北市大安區敦化南路二段76號5樓之2",
       subContent: ""
-    },
-    {
-      icon: Phone,
-      title: "聯絡電話",
-      content: "+886 2 7705-3298",
-      subContent: "服務專線（週一至週五）"
     },
     {
       icon: Mail,
@@ -133,7 +126,7 @@ const ContactSection = () => {
           <div className="space-y-8 animate-fade-in-up">
             <div>
               <h3 className="text-2xl font-bold font-playfair mb-6">聯絡資訊</h3>
-              <div className="grid sm:grid-cols-2 gap-6">
+              <div className="grid gap-6">
                 {contactInfo.map((info, index) => {
                   const Icon = info.icon;
                   return (

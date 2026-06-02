@@ -140,7 +140,6 @@ const App = () => {
 
             <Toaster />
             <Sonner />
-            <FraudAlertModal />
             <BrowserRouter>
               <AnimatedRoutes />
             </BrowserRouter>

@@ -4,7 +4,6 @@ import logo from '@/assets/logo.png';
 
 import {
   MapPin,
-  Phone,
   Mail,
   ArrowUp
 } from "lucide-react";
@@ -82,10 +81,6 @@ const Footer = () => {
                 <MapPin className="w-4 h-4 mr-3 text-accent" />
                 台北市大安區敦化南路二段76號5樓之2
               </div>
-              <a href="tel:+886277053298" target="_blank" rel="noopener noreferrer" className="flex items-center text-background/80 hover:text-accent transition-smooth">
-                <Phone className="w-4 h-4 mr-3 text-accent" />
-                +886 2 7705-3298
-              </a>
               {/* Mobile Email Link - Mailto */}
               <a href="mailto:service@wsgfo.com" target="_blank" rel="noopener noreferrer" className="flex md:hidden items-center text-background/80 hover:text-accent transition-smooth">
                 <Mail className="w-4 h-4 mr-3 text-accent" />
